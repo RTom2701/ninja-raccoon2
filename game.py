@@ -50,6 +50,10 @@ class Game:
             self.player.changer_animation('droite')
             self.player.position[0] += self.player.xvitesse
 
+        elif pressed[pygame.K_UP]:
+            self.player.yvitesse = -7
+            self.player.position[1] += self.player.yvitesse
+
         elif pressed[pygame.K_ESCAPE]:
             pygame.quit()
 
@@ -64,6 +68,8 @@ class Game:
                 self.player.yvitesse=0
             else:
                 self.player.yvitesse+=1
+                if self.player.yvitesse==6:
+                    self.player.yvitesse=5
         self.player.position[1] += self.player.yvitesse
 
 
