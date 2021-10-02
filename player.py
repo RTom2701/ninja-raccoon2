@@ -16,8 +16,9 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
 
         }
         self.ancienne_position = self.position.copy()
-        self.xvitesse = 3
-        self.yvitesse = 0
+        self.vitesse_x = 3
+        self.vitesse_y = 0
+        self.gravite = True
     
     # changement animation
     def changer_animation(self, name):
@@ -41,4 +42,33 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         image = pygame.Surface([32, 32]) # extraction image
         image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32)) # extraction d'un morceau de l'image 
         return image
+    
+    def deplacer(self):
+        pressed = pygame.key.get_pressed() # recuperation des inputs
+        print(self.vitesse_x)
+        # Déplacment joueur
+        if pressed[pygame.K_LEFT]:
+            self.changer_animation('gauche') # changement d'animation
+            self.position[0] -= self.vitesse_x # déplacement du joueur
+
+            # accélération du joueur
+            if self.vitesse_x < 8:
+                self.vitesse_x += 0.05
+
+        # quand le joueur n'appuie plus sur la touche la vitesse reviens à la normale
+        elif not  pressed[pygame.K_RIGHT]:
+            self.vitesse_x = 3
+     
+        elif pressed[pygame.K_RIGHT]:
+            self.changer_animation('droite') # changement d'animation
+            self.position[0] += self.vitesse_x # déplacement du joueur
+
+            # accélération du joueur
+            if self.vitesse_x < 8:
+                self.vitesse_x += 0.05
+
+        # quand le joueur n'appuie plus sur la touche la vitesse reviens à la normale
+        elif not  pressed[pygame.K_RIGHT]:
+            self.vitesse_x = 3
+        
 
