@@ -68,8 +68,8 @@ class Game:
                 self.player.yvitesse=0
             else:
                 self.player.yvitesse+=1
-                if self.player.yvitesse==6:
-                    self.player.yvitesse=5
+                if self.player.yvitesse==9:
+                    self.player.yvitesse=8
         self.player.position[1] += self.player.yvitesse
 
 
