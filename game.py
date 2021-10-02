@@ -51,6 +51,8 @@ class Game:
         # verification collision
         for sprite in self.group.sprites():
             if sprite.rect.collidelist(self.walls) > -1:
+                self.player.saut_disponible = True
+                print(self.player.saut_disponible)                
                 self.player.revenir()
             
             elif sprite.rect.collidelist(self.sols) == -1:
