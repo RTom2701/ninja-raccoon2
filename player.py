@@ -16,7 +16,8 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
 
         }
         self.ancienne_position = self.position.copy()
-        self.vitesse = 3
+        self.xvitesse = 3
+        self.yvitesse = 0
     
     # changement animation
     def changer_animation(self, name):

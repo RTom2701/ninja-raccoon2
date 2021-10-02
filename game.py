@@ -44,11 +44,11 @@ class Game:
         # Déplacment joueur
         if pressed[pygame.K_LEFT]:
             self.player.changer_animation('gauche')
-            self.player.position[0] -= self.player.vitesse
+            self.player.position[0] -= self.player.xvitesse
      
         elif pressed[pygame.K_RIGHT]:
             self.player.changer_animation('droite')
-            self.player.position[0] += self.player.vitesse
+            self.player.position[0] += self.player.xvitesse
 
         elif pressed[pygame.K_ESCAPE]:
             pygame.quit()
@@ -61,6 +61,10 @@ class Game:
         for sprite in self.group.sprites():
             if sprite.rect.collidelist(self.walls) > -1:
                 self.player.revenir()
+                self.player.yvitesse=0
+            else:
+                self.player.yvitesse+=1
+        self.player.position[1] += self.player.yvitesse
 
 
     def run(self):
