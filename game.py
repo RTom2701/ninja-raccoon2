@@ -51,12 +51,15 @@ class Game:
         # verification collision
         for sprite in self.group.sprites():
             if sprite.rect.collidelist(self.walls) > -1:
-                self.player.saut_disponible = True
-                print(self.player.saut_disponible)                
+                self.player.saut_disponible = True               
                 self.player.revenir()
             
             elif sprite.rect.collidelist(self.sols) == -1:
+                self.player.saut_disponible = False
                 self.graviter()
+            else:
+                self.player.saut_disponible = True
+                print(self.player.saut_disponible)
 
             
             
@@ -64,7 +67,9 @@ class Game:
     def graviter(self):
         self.player.position[1] += self.player.vitesse_y
         if self.player.vitesse_y < 10:
-            self.player.vitesse_y += 0.1
+            if self.player.vitesse_x > 1:
+                self.player.vitesse_x -= 0.1
+            self.player.vitesse_y += 0.15
         
 
 
