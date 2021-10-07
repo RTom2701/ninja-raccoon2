@@ -1,4 +1,5 @@
 from player import joueur
+from ennemi import ennemi
 import pygame
 import pytmx
 import pyscroll 
@@ -23,6 +24,10 @@ class Game:
         position_joueur = tmx_data.get_object_by_name("Player")
         self.player = joueur(position_joueur.x, position_joueur.y)
 
+        # generer un ennemi
+        position_ennemi_test = tmx_data.get_object_by_name("ennemi")
+        self.ennemi = ennemi(position_ennemi_test.x, position_ennemi_test.y, "img/projectiles.png", 13, 13)
+
         # définir une liste qui va stocket les retangles de collisions
         self.walls = []
         self.sols = []
@@ -36,6 +41,7 @@ class Game:
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
         self.group.add(self.player) # ajout du joueur dans la carte
+        
 
     # récupération des touches enfoncés 
     def recuperation_input(self):

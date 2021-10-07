@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="15">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="16">
  <tileset firstgid="1" source="nature.tsx"/>
  <layer id="1" name="background" width="100" height="30">
   <data encoding="csv">
@@ -83,5 +83,8 @@
   <object id="12" type="collision" x="863.75" y="191.875" width="64.5" height="32.25"/>
   <object id="13" type="collision" x="832.25" y="224.25" width="95.875" height="31.625"/>
   <object id="14" type="collision" x="896.375" y="159.875" width="31.375" height="31.875"/>
+  <object id="15" name="ennemi" x="218" y="221.333">
+   <point/>
+  </object>
  </objectgroup>
 </map>
