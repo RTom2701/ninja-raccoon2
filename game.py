@@ -73,7 +73,7 @@ class Game:
     def graviter(self):
         self.player.position[1] += self.player.vitesse_y
         if self.player.vitesse_y < 10:
-            if self.player.vitesse_x > 1:
+            if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
             self.player.vitesse_y += 0.15
         

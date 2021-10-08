@@ -53,7 +53,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             self.position[0] -= self.vitesse_x # déplacement du joueur
 
             # accélération du joueur
-            if self.vitesse_x < 8:
+            if self.vitesse_x < 5:
                 self.vitesse_x += 0.05
 
         # quand le joueur n'appuie plus sur la touche la vitesse reviens à la normale
@@ -65,7 +65,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             self.position[0] += self.vitesse_x # déplacement du joueur
 
             # accélération du joueur
-            if self.vitesse_x < 8:
+            if self.vitesse_x < 5:
                 self.vitesse_x += 0.05
 
         # quand le joueur n'appuie plus sur la touche la vitesse reviens à la normale
