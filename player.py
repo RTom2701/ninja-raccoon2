@@ -19,7 +19,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         self.vitesse_x = 3 # Ne doit pas depasser 10
         self.vitesse_y = 0 # Ne doit pas depasser 10
         self.deplacement_disponible = [True, True, True, True] # Gauche, Droite, Haut, Bas
-        self.tolerance = 10 # tolerance pour la collision
+        self.tolerance = 5 # tolerance pour la collision
         self.saut_disponible = True
     
     # changement animation
@@ -53,7 +53,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             self.changer_animation('gauche') # changement d'animation
             self.position[0] -= self.vitesse_x # déplacement du joueur
             # accélération du joueur
-            if self.vitesse_x < 9.5:
+            if self.vitesse_x < 5:
                 self.vitesse_x += 0.05
 
 
@@ -62,7 +62,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             self.position[0] += self.vitesse_x # déplacement du joueur
 
             # accélération du joueur
-            if self.vitesse_x < 9.5:
+            if self.vitesse_x < 5:
                 self.vitesse_x += 0.05
 
         # quand le joueur n'appuie plus sur la touche la vitesse reviens à la normale
@@ -70,10 +70,10 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             self.vitesse_x = 3
         
         if pressed[pygame.K_UP] and self.deplacement_disponible[2]:
-            self.position[1] -= 10
+            self.position[1] -= 5
 
         if pressed[pygame.K_DOWN] and self.deplacement_disponible[3]:
-            self.position[1] += 10
+            self.position[1] += 5
 
         '''if pressed[pygame.K_UP] and self.saut_disponible== True:
             compteur_longueur_saut = 0

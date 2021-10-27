@@ -86,34 +86,34 @@ class Game:
         else:
             self.player.deplacement_disponible[2] = True
 
-        for plateforme in self.plateforme:
-            if plateforme.colliderect(self.player.rect):
-                print(self.player.deplacement_disponible)
-                if abs(plateforme.top - self.player.rect.bottom) <= self.player.tolerance:
+        for i in range(len(self.plateforme)):
+            if self.plateforme[i].colliderect(self.player.rect):
+                print(self.player.deplacement_disponible, i)
+
+                # collision entre le haut de la plateforme et le bas du joueur
+                if abs(self.plateforme[i].top - self.player.rect.bottom) <= self.player.tolerance:
                     self.player.deplacement_disponible[3] = False
                 else:
                     self.player.deplacement_disponible[3] = True
 
-                if abs(plateforme.bottom - self.player.rect.top) <= self.player.tolerance:
+                # collision entre le bas de la plateforme et le haut du joueur
+                if abs(self.plateforme[i].bottom - self.player.rect.top) <= self.player.tolerance:
                     self.player.deplacement_disponible[2] = False
                 else:
                     self.player.deplacement_disponible[2] = True
 
-                if abs(plateforme.right - self.player.rect.left) <= self.player.tolerance:
+                # collision entre le cote droit de la plateforme et le cote gauche du joueur
+                if abs(self.plateforme[i].right - self.player.rect.left) <= self.player.tolerance:
                     self.player.deplacement_disponible[0] = False
                 else:
                     self.player.deplacement_disponible[0] = True
-                if abs(plateforme.left - self.player.rect.right) <= self.player.tolerance:
+
+                # collision entre le cote gauche de la plateforme et le cote droit du joueur
+                if abs(self.plateforme[i].left - self.player.rect.right) <= self.player.tolerance:
                     self.player.deplacement_disponible[1] = False
                 else:
                     self.player.deplacement_disponible[1] = True
 
-
-
-
-            
-            
-    
     def graviter(self):
         self.player.position[1] += self.player.vitesse_y
         if self.player.vitesse_y < 10:
@@ -147,6 +147,3 @@ class Game:
             tickrate.tick(60) # Rafraichissement = 60 IPS
 
         pygame.quit()
-
-
-        
