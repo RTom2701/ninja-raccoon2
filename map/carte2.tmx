@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="16">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="40">
  <tileset firstgid="1" source="nature.tsx"/>
  <layer id="1" name="background" width="100" height="30">
   <data encoding="csv">
@@ -69,22 +69,23 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="4" name="Bordure" visible="0" locked="1">
+  <object id="27" type="bordure" x="0" y="0" width="1600" height="480"/>
+ </objectgroup>
  <objectgroup id="3" name="Objets">
-  <object id="1" name="Player" x="66.3334" y="48.3333">
+  <object id="1" name="Player" x="72.3334" y="175">
    <point/>
   </object>
-  <object id="4" type="sol" x="0" y="288" width="368" height="191.5"/>
-  <object id="5" type="collision" x="-1.5" y="1" width="3.5" height="287"/>
-  <object id="6" type="sol" x="433.5" y="288.5" width="495.5" height="192"/>
-  <object id="7" type="collision" x="1232.5" y="287" width="368" height="193"/>
-  <object id="9" type="collision" x="992.273" y="127.909" width="95.7273" height="32.0909"/>
-  <object id="10" type="collision" x="1152.09" y="128.091" width="96" height="31.9091"/>
-  <object id="11" type="collision" x="800.125" y="256" width="127.875" height="31.875"/>
-  <object id="12" type="collision" x="863.75" y="191.875" width="64.5" height="32.25"/>
-  <object id="13" type="collision" x="832.25" y="224.25" width="95.875" height="31.625"/>
-  <object id="14" type="collision" x="896.375" y="159.875" width="31.375" height="31.875"/>
   <object id="15" name="ennemi" x="218" y="221.333">
    <point/>
   </object>
+  <object id="29" type="plateforme" x="-16" y="288" width="384" height="176"/>
+  <object id="30" type="plateforme" x="432" y="288" width="496" height="176"/>
+  <object id="32" type="plateforme" x="800" y="256" width="128" height="32"/>
+  <object id="34" type="plateforme" x="832" y="224" width="96" height="32"/>
+  <object id="35" type="plateforme" x="864" y="192" width="64" height="32"/>
+  <object id="36" type="plateforme" x="896" y="160" width="32" height="32"/>
+  <object id="37" type="plateforme" x="992" y="128" width="96" height="32"/>
+  <object id="38" type="plateforme" x="1152" y="128" width="96" height="32"/>
  </objectgroup>
 </map>

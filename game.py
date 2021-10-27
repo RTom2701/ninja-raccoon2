@@ -1,3 +1,4 @@
+from pygame.constants import GL_ACCELERATED_VISUAL
 from player import joueur
 from ennemi import ennemi
 import pygame
@@ -11,7 +12,8 @@ pygame.init()
 class Game:
     def __init__(self):
         # créer la fenetre du jeu
-        self.screen = pygame.display.set_mode((800, 600))
+        self.dimension = (800, 600)
+        self.screen = pygame.display.set_mode(self.dimension)
         pygame.display.set_caption("Mon jeu x)")
 
         # charger la carte
@@ -30,13 +32,16 @@ class Game:
 
         # définir une liste qui va stocket les retangles de collisions
         self.walls = []
-        self.sols = []
+        self.plateforme = []
+        self.bordure_carte = []
 
         for obj in tmx_data.objects: # récupération de tous les objets dans la carte
             if obj.type == 'collision':
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
-            if obj.type == 'sol':
-                self.sols.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == 'plateforme':
+                self.plateforme.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == 'bordure':
+                self.bordure_carte.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
@@ -55,17 +60,56 @@ class Game:
         self.group.update()
         
         # verification collision
-        for sprite in self.group.sprites():
+        '''for sprite in self.group.sprites():
             if sprite.rect.collidelist(self.walls) > -1:
                 self.player.saut_disponible = True               
-                self.player.revenir()
-            
-            elif sprite.rect.collidelist(self.sols) == -1:
-                self.player.saut_disponible = False
-                self.graviter()
-            else:
-                self.player.saut_disponible = True
-                print(self.player.saut_disponible)
+                self.player.revenir()'''
+
+        # collision bordure
+        if self.player.rect.right >= self.bordure_carte[0].width: # côté droit
+            self.player.deplacement_disponible[1] = False
+        else:
+            self.player.deplacement_disponible[1] = True
+
+        if self.player.rect.left <= 0: # côte gauche
+            self.player.deplacement_disponible[0] = False
+        else:
+            self.player.deplacement_disponible[0] = True
+
+        if self.player.rect.bottom >=  self.bordure_carte[0].height: # bas
+            self.player.deplacement_disponible[3] = False
+        else:
+            self.player.deplacement_disponible[3] = True
+
+        if self.player.rect.top <= 0: # haut
+            self.player.deplacement_disponible[2] = False
+        else:
+            self.player.deplacement_disponible[2] = True
+
+        for plateforme in self.plateforme:
+            if plateforme.colliderect(self.player.rect):
+                print(self.player.deplacement_disponible)
+                if abs(plateforme.top - self.player.rect.bottom) <= self.player.tolerance:
+                    self.player.deplacement_disponible[3] = False
+                else:
+                    self.player.deplacement_disponible[3] = True
+
+                if abs(plateforme.bottom - self.player.rect.top) <= self.player.tolerance:
+                    self.player.deplacement_disponible[2] = False
+                else:
+                    self.player.deplacement_disponible[2] = True
+
+                if abs(plateforme.right - self.player.rect.left) <= self.player.tolerance:
+                    self.player.deplacement_disponible[0] = False
+                else:
+                    self.player.deplacement_disponible[0] = True
+                if abs(plateforme.left - self.player.rect.right) <= self.player.tolerance:
+                    self.player.deplacement_disponible[1] = False
+                else:
+                    self.player.deplacement_disponible[1] = True
+
+
+
 
             
             
