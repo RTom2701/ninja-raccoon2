@@ -16,6 +16,9 @@ class Game:
         self.screen = pygame.display.set_mode(self.dimension)
         pygame.display.set_caption("Mon jeu x)")
 
+        # Pour que le jeu se lance
+        self.jeu = True
+
         # charger la carte
         tmx_data = pytmx.util_pygame.load_pygame('map/carte2.tmx') # spécification du fichier de la carte
         map_data = pyscroll.data.TiledMapData(tmx_data) # récupérer les données du tmx
@@ -34,6 +37,7 @@ class Game:
         self.walls = []
         self.plateforme = []
         self.bordure_carte = []
+        self.bordure_suicide = []
 
         for obj in tmx_data.objects: # récupération de tous les objets dans la carte
             if obj.type == 'collision':
@@ -42,6 +46,8 @@ class Game:
                 self.plateforme.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
             if obj.type == 'bordure':
                 self.bordure_carte.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == 'suicide':
+                self.bordure_suicide.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
@@ -88,11 +94,12 @@ class Game:
 
         for i in range(len(self.plateforme)):
             if self.plateforme[i].colliderect(self.player.rect):
-                print(self.player.deplacement_disponible, i)
 
                 # collision entre le haut de la plateforme et le bas du joueur
                 if abs(self.plateforme[i].top - self.player.rect.bottom) <= self.player.tolerance:
                     self.player.deplacement_disponible[3] = False
+                    self.player.graviter = False # empeche la gravité
+                    self.player.saut_disponible = True
                 else:
                     self.player.deplacement_disponible[3] = True
 
@@ -113,10 +120,20 @@ class Game:
                     self.player.deplacement_disponible[1] = False
                 else:
                     self.player.deplacement_disponible[1] = True
+            else:
+                if self.player.deplacement_disponible[3] == True and self.player.chute_disponible:
+                    self.player.graviter = True
+                    self.player.saut_disponible = False
+        self.graviter()
+
+        for surface in self.bordure_suicide:
+            if surface.colliderect(self.player.rect):
+                self.jeu = False
 
     def graviter(self):
-        self.player.position[1] += self.player.vitesse_y
-        if self.player.vitesse_y < 10:
+        if self.player.graviter:
+            self.player.position[1] += self.player.vitesse_y
+        if self.player.vitesse_y < 10 and self.player.graviter:
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
             self.player.vitesse_y += 0.15
@@ -129,10 +146,9 @@ class Game:
 
 
         # boucle du jeu
-        jeu = True
-
-        while jeu == True:
-            
+        while self.jeu == True:
+            '''print(self.player.chute_disponible, self.player.graviter)'''
+            '''print(self.player.deplacement_disponible)'''
             self.player.sauvegarder_pos()
             self.recuperation_input()
             self.player.deplacer()
