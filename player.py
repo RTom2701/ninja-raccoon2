@@ -16,10 +16,15 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
 
         }
         self.ancienne_position = self.position.copy()
-        self.vitesse_x = 3
-        self.vitesse_y = 0
-        self.gravite = True
+        self.vitesse_x = 3 # Ne doit pas depasser 10
+        self.vitesse_y = 0 # Ne doit pas depasser 10
+        self.deplacement_disponible = [True, True, True, True] # Gauche, Droite, Haut, Bas
+        self.tolerance = 5 # tolerance pour la collision
         self.saut_disponible = True
+        self.graviter = True # graviter dispobible ou non
+        self.chute_disponible = True # savoir si le personne peut tomber
+        self.saut_bloque = False
+        self.puissance_saut = 0
     
     # changement animation
     def changer_animation(self, name):
@@ -46,21 +51,17 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
     
     def deplacer(self):
         pressed = pygame.key.get_pressed() # recuperation des inputs
-        print(self.vitesse_x)
+
         # Déplacment joueur
-        if pressed[pygame.K_LEFT]:
+        if pressed[pygame.K_LEFT] and self.deplacement_disponible[0]:
             self.changer_animation('gauche') # changement d'animation
             self.position[0] -= self.vitesse_x # déplacement du joueur
-
             # accélération du joueur
             if self.vitesse_x < 5:
                 self.vitesse_x += 0.05
 
-        # quand le joueur n'appuie plus sur la touche la vitesse reviens à la normale
-        elif not  pressed[pygame.K_RIGHT]:
-            self.vitesse_x = 3
 
-        elif pressed[pygame.K_RIGHT]:
+        if pressed[pygame.K_RIGHT] and self.deplacement_disponible[1]:
             self.changer_animation('droite') # changement d'animation
             self.position[0] += self.vitesse_x # déplacement du joueur
 
@@ -69,19 +70,42 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
                 self.vitesse_x += 0.05
 
         # quand le joueur n'appuie plus sur la touche la vitesse reviens à la normale
-        elif not  pressed[pygame.K_RIGHT]:
+        if not pressed[pygame.K_RIGHT] and not pressed[pygame.K_LEFT]:
             self.vitesse_x = 3
         
-        if pressed[pygame.K_UP] and self.saut_disponible== True:
+        '''if pressed[pygame.K_UP] and self.deplacement_disponible[2]:
+            self.chute_disponible = False
+            self.vitesse_y = 0
+            self.position[1] -= 5'''
+        
+        if not pressed[pygame.K_UP]:
+            self.chute_disponible = True
+            self.puissance_saut = 0
+        
+        if pressed[pygame.K_UP] and  self.puissance_saut > 0:
+            if self.saut_bloque:
+                self.puissance_saut = 0
+            self.vitesse_y = -1*(self.puissance_saut/12)
+            self.puissance_saut -= 1
+            self.position[1] += self.vitesse_y
+            self.saut_disponible = False
+            if self.vitesse_x > 3:
+                self.vitesse_x -= 1
+        if pressed[pygame.K_UP] and  self.puissance_saut <= 0:
+            self.saut_disponible == True
+            
+            
+            """
             compteur_longueur_saut = 0
             self.vitesse_y = -1
             self.saut_disponible = False
             self.position[1] += self.vitesse_y
             pressed = pygame.key.get_pressed()
-            while pressed[pygame.K_UP] and compteur_longueur_saut <= 2:
+            while pressed[pygame.K_UP] and compteur_longueur_saut <= 3:
                 compteur_longueur_saut+=1
                 self.vitesse_y += -1
                 self.position[1] += self.vitesse_y
                 pressed = pygame.key.get_pressed()
+            """
 
 

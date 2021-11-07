@@ -1,5 +1,7 @@
+from pygame.constants import GL_ACCELERATED_VISUAL
 from player import joueur
 from ennemi import ennemi
+from coin import coin
 import pygame
 import pytmx
 import pyscroll 
@@ -11,8 +13,12 @@ pygame.init()
 class Game:
     def __init__(self):
         # créer la fenetre du jeu
-        self.screen = pygame.display.set_mode((800, 600))
+        self.dimension = (800, 600)
+        self.screen = pygame.display.set_mode(self.dimension)
         pygame.display.set_caption("Mon jeu x)")
+
+        # Pour que le jeu se lance
+        self.jeu = True
 
         # charger la carte
         tmx_data = pytmx.util_pygame.load_pygame('map/carte2.tmx') # spécification du fichier de la carte
@@ -24,23 +30,40 @@ class Game:
         position_joueur = tmx_data.get_object_by_name("Player")
         self.player = joueur(position_joueur.x, position_joueur.y)
 
-        # generer un ennemi
-        position_ennemi_test = tmx_data.get_object_by_name("ennemi")
-        self.ennemi = ennemi(position_ennemi_test.x, position_ennemi_test.y, "img/projectiles.png", 13, 13)
-
+        # generation des pieces
+        self.list_coin = []
+        position_coin = tmx_data.get_object_by_name("piece")
+        global coin
+        
         # définir une liste qui va stocket les retangles de collisions
         self.walls = []
-        self.sols = []
+        self.plateforme = []
+        self.bordure_carte = []
+        self.bordure_suicide = []
 
         for obj in tmx_data.objects: # récupération de tous les objets dans la carte
             if obj.type == 'collision':
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
-            if obj.type == 'sol':
-                self.sols.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == 'plateforme':
+                self.plateforme.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == 'bordure':
+                self.bordure_carte.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.type == 'suicide':
+                self.bordure_suicide.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.name == 'piece':
+                self.list_coin.append(coin(obj.x, obj.y, 'img/coin/MonedaD.png', 'piece_or'))
+            if obj.name == 'super_piece':
+                self.list_coin.append(coin(obj.x, obj.y, 'img/coin/spr_coin_roj.png', 'rubis'))
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
         self.group.add(self.player) # ajout du joueur dans la carte
+        for coin in self.list_coin:
+            self.group.add(coin)
+
+
+        # Score du joueur
+        self.score = 0
         
 
     # récupération des touches enfoncés 
@@ -49,33 +72,98 @@ class Game:
 
         if pressed[pygame.K_ESCAPE]:
             pygame.quit()
+        if pressed[pygame.K_a]:
+            self.coin.remove()
+            print()
 
 
     def update(self):
         self.group.update()
         
         # verification collision
-        for sprite in self.group.sprites():
+        '''for sprite in self.group.sprites():
             if sprite.rect.collidelist(self.walls) > -1:
                 self.player.saut_disponible = True               
-                self.player.revenir()
-            
-            elif sprite.rect.collidelist(self.sols) == -1:
-                self.player.saut_disponible = False
-                self.graviter()
-            else:
-                self.player.saut_disponible = True
-                print(self.player.saut_disponible)
+                self.player.revenir()'''
 
-            
-            
-    
+        # collision bordure
+        if self.player.rect.right >= self.bordure_carte[0].width: # côté droit
+            self.player.deplacement_disponible[1] = False
+        else:
+            self.player.deplacement_disponible[1] = True
+
+        if self.player.rect.left <= 0: # côte gauche
+            self.player.deplacement_disponible[0] = False
+        else:
+            self.player.deplacement_disponible[0] = True
+
+        if self.player.rect.bottom >=  self.bordure_carte[0].height: # bas
+            self.player.deplacement_disponible[3] = False
+        else:
+            self.player.deplacement_disponible[3] = True
+
+        if self.player.rect.top <= 0: # haut
+            self.player.deplacement_disponible[2] = False
+        else:
+            self.player.deplacement_disponible[2] = True
+
+        for i in range(len(self.plateforme)):
+            if self.plateforme[i].colliderect(self.player.rect):
+
+                # collision entre le haut de la plateforme et le bas du joueur
+                if abs(self.plateforme[i].top - self.player.rect.bottom) <= self.player.tolerance:
+                    self.player.deplacement_disponible[3] = False
+                    self.player.graviter = False # empeche la gravité
+                    self.player.saut_disponible = True
+                    self.player.saut_bloque = False
+                    self.player.puissance_saut = 40
+                else:
+                    self.player.deplacement_disponible[3] = True
+
+                # collision entre le bas de la plateforme et le haut du joueur
+                if abs(self.plateforme[i].bottom - self.player.rect.top) <= self.player.tolerance:
+                    self.player.deplacement_disponible[2] = False
+                    self.player.saut_bloque = True
+                else:
+                    self.player.deplacement_disponible[2] = True
+
+                # collision entre le cote droit de la plateforme et le cote gauche du joueur
+                if abs(self.plateforme[i].right - self.player.rect.left) <= self.player.tolerance:
+                    self.player.deplacement_disponible[0] = False
+                else:
+                    self.player.deplacement_disponible[0] = True
+
+                # collision entre le cote gauche de la plateforme et le cote droit du joueur
+                if abs(self.plateforme[i].left - self.player.rect.right) <= self.player.tolerance:
+                    self.player.deplacement_disponible[1] = False
+                else:
+                    self.player.deplacement_disponible[1] = True
+            else:
+                if self.player.deplacement_disponible[3] == True and self.player.chute_disponible:
+                    self.player.graviter = True
+                    self.player.saut_disponible = False
+        self.graviter()
+        
+
+        for coin in self.list_coin:
+            if self.player.rect.colliderect(coin):
+                if coin.type == 'piece_or':
+                    self.score += 10
+                if coin.type == 'rubis':
+                    self.score += 100
+                coin.position[1] += 1000
+
+        for surface in self.bordure_suicide:
+            if surface.colliderect(self.player.rect):
+                self.jeu = False
+
     def graviter(self):
-        self.player.position[1] += self.player.vitesse_y
-        if self.player.vitesse_y < 10:
+        if self.player.graviter:
+            self.player.position[1] += self.player.vitesse_y
+        if self.player.vitesse_y < 10 and self.player.graviter:
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
-            self.player.vitesse_y += 0.15
+            self.player.vitesse_y += 0.1
         
 
 
@@ -85,10 +173,9 @@ class Game:
 
 
         # boucle du jeu
-        jeu = True
-
-        while jeu == True:
-            
+        while self.jeu == True:
+            '''print(self.player.chute_disponible, self.player.graviter)'''
+            '''print(self.player.deplacement_disponible)'''
             self.player.sauvegarder_pos()
             self.recuperation_input()
             self.player.deplacer()
@@ -96,13 +183,12 @@ class Game:
             self.group.center(self.player.rect)
             self.group.draw(self.screen) # affichage de la carte
             pygame.display.flip()
+            print(self.score)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     jeu = False
+
             tickrate.tick(60) # Rafraichissement = 60 IPS
 
         pygame.quit()
-
-
-        
