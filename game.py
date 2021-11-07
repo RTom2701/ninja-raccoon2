@@ -1,6 +1,7 @@
 from pygame.constants import GL_ACCELERATED_VISUAL
 from player import joueur
 from ennemi import ennemi
+from coin import coin
 import pygame
 import pytmx
 import pyscroll 
@@ -30,8 +31,10 @@ class Game:
         self.player = joueur(position_joueur.x, position_joueur.y)
 
         # generer un ennemi
-        position_ennemi_test = tmx_data.get_object_by_name("ennemi")
-        self.ennemi = ennemi(position_ennemi_test.x, position_ennemi_test.y, "img/projectiles.png", 13, 13)
+        position_coin = tmx_data.get_object_by_name("piece")
+        self.coin = coin(position_coin.x, position_coin.y)
+        self.coin1 = coin(position_coin.x+20, position_coin.y)
+        self.coin2 = coin(position_coin.x+40, position_coin.y)
 
         # définir une liste qui va stocket les retangles de collisions
         self.walls = []
@@ -52,6 +55,9 @@ class Game:
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
         self.group.add(self.player) # ajout du joueur dans la carte
+        self.group.add(self.coin)
+        self.group.add(self.coin1)
+        self.group.add(self.coin2)
         
 
     # récupération des touches enfoncés 

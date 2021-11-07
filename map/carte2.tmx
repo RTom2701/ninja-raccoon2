@@ -76,7 +76,7 @@
   <object id="1" name="Player" x="72.3334" y="175">
    <point/>
   </object>
-  <object id="15" name="ennemi" x="218" y="221.333">
+  <object id="15" name="piece" type="piece" x="235.333" y="246.666">
    <point/>
   </object>
   <object id="29" type="plateforme" x="-16" y="288" width="384" height="176"/>
