@@ -94,7 +94,7 @@ class Application :
         # Groupe de sprites utilisé pour l'affichage
         self.groupeGlobal = pygame.sprite.Group()
         self.statut = True
-        self.game=Game()
+        self.game=Game('map/1forest.tmx', 0)
  
     def _initialiser(self) :
         try:

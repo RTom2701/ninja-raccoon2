@@ -11,7 +11,7 @@ pygame.init()
 
 # class jeu
 class Game:
-    def __init__(self):
+    def __init__(self, map, score):
         # créer la fenetre du jeu
         self.dimension = (800, 600)
         self.screen = pygame.display.set_mode(self.dimension)
@@ -21,7 +21,7 @@ class Game:
         self.jeu = True
 
         # charger la carte
-        tmx_data = pytmx.util_pygame.load_pygame('map/carte2.tmx') # spécification du fichier de la carte
+        tmx_data = pytmx.util_pygame.load_pygame(map) # spécification du fichier de la carte
         map_data = pyscroll.data.TiledMapData(tmx_data) # récupérer les données du tmx
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size()) # récupération des calques (des différents plans de la carte)
         map_layer.zoom = 2 # zoom sur une zone
@@ -63,7 +63,7 @@ class Game:
 
 
         # Score du joueur
-        self.score = 0
+        self.score = score
         
 
     # récupération des touches enfoncés 
@@ -170,7 +170,6 @@ class Game:
     def run(self):
         # tickrate
         tickrate = pygame.time.Clock()
-
 
         # boucle du jeu
         while self.jeu == True:
