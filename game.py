@@ -100,12 +100,15 @@ class Game:
                     self.player.deplacement_disponible[3] = False
                     self.player.graviter = False # empeche la gravité
                     self.player.saut_disponible = True
+                    self.player.saut_bloque = False
+                    self.player.puissance_saut = 40
                 else:
                     self.player.deplacement_disponible[3] = True
 
                 # collision entre le bas de la plateforme et le haut du joueur
                 if abs(self.plateforme[i].bottom - self.player.rect.top) <= self.player.tolerance:
                     self.player.deplacement_disponible[2] = False
+                    self.player.saut_bloque = True
                 else:
                     self.player.deplacement_disponible[2] = True
 

@@ -23,6 +23,8 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         self.saut_disponible = True
         self.graviter = True # graviter dispobible ou non
         self.chute_disponible = True # savoir si le personne peut tomber
+        self.saut_bloque = False
+        self.puissance_saut = 0
     
     # changement animation
     def changer_animation(self, name):
@@ -78,17 +80,32 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         
         if not pressed[pygame.K_UP]:
             self.chute_disponible = True
-
-        if pressed[pygame.K_UP] and self.saut_disponible== True:
+            self.puissance_saut = 0
+        
+        if pressed[pygame.K_UP] and  self.puissance_saut > 0:
+            if self.saut_bloque:
+                self.puissance_saut = 0
+            self.vitesse_y = -1*(self.puissance_saut/12)
+            self.puissance_saut -= 1
+            self.position[1] += self.vitesse_y
+            self.saut_disponible = False
+            if self.vitesse_x > 3:
+                self.vitesse_x -= 1
+        if pressed[pygame.K_UP] and  self.puissance_saut <= 0:
+            self.saut_disponible == True
+            
+            
+            """
             compteur_longueur_saut = 0
             self.vitesse_y = -1
             self.saut_disponible = False
             self.position[1] += self.vitesse_y
             pressed = pygame.key.get_pressed()
-            while pressed[pygame.K_UP] and compteur_longueur_saut <= 2:
+            while pressed[pygame.K_UP] and compteur_longueur_saut <= 3:
                 compteur_longueur_saut+=1
                 self.vitesse_y += -1
                 self.position[1] += self.vitesse_y
                 pressed = pygame.key.get_pressed()
+            """
 
 
