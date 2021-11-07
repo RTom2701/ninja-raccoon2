@@ -7,7 +7,12 @@ import pytmx
 import pyscroll 
 
 # Initialisation de pygame
+fichier = 'musique.mp3'
 pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load(fichier)
+pygame.mixer.music.play(-1) # If the loops is -1 then the music will repeat indefinitely.
+pygame.mixer.music.set_volume(0.05)
 
 # class jeu
 class Game:
@@ -15,7 +20,7 @@ class Game:
         # créer la fenetre du jeu
         self.dimension = (1920, 1080)
         self.screen = pygame.display.set_mode(self.dimension)
-        pygame.display.set_caption("Mon jeu x)")
+        pygame.display.set_caption("Ninja Raccoon 2")
 
         # Pour que le jeu se lance
         self.jeu = True
