@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="50">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1500">
  <tileset firstgid="1" source="nature.tsx"/>
  <layer id="1" name="background" width="100" height="30">
   <data encoding="csv">
@@ -76,9 +76,6 @@
   <object id="1" name="Player" x="72.3334" y="175">
    <point/>
   </object>
-  <object id="15" name="piece" type="piece" x="235.333" y="246.666">
-   <point/>
-  </object>
   <object id="29" type="plateforme" x="-16" y="288" width="384" height="176"/>
   <object id="30" type="plateforme" x="432" y="288" width="496" height="176"/>
   <object id="40" type="plateforme" x="1152" y="176" width="96" height="32"/>
@@ -86,6 +83,18 @@
   <object id="43" type="plateforme" x="960" y="256" width="64" height="32"/>
   <object id="46" type="plateforme" x="336" y="176" width="128" height="32"/>
   <object id="47" type="plateforme" x="1232" y="288" width="368" height="176"/>
+  <object id="1495" name="piece" type="piece" x="362" y="144">
+   <point/>
+  </object>
+  <object id="1497" name="piece" type="piece" x="401.333" y="145.333">
+   <point/>
+  </object>
+  <object id="1498" name="piece" type="piece" x="437.333" y="145.333">
+   <point/>
+  </object>
+  <object id="1499" name="super_piece" type="super_piece" x="221.333" y="211.333">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="Mort">
   <object id="48" type="suicide" x="0" y="464" width="1600" height="16"/>

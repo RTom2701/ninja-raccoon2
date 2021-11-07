@@ -30,12 +30,11 @@ class Game:
         position_joueur = tmx_data.get_object_by_name("Player")
         self.player = joueur(position_joueur.x, position_joueur.y)
 
-        # generer un ennemi
+        # generation des pieces
+        self.list_coin = []
         position_coin = tmx_data.get_object_by_name("piece")
-        self.coin = coin(position_coin.x, position_coin.y)
-        self.coin1 = coin(position_coin.x+20, position_coin.y)
-        self.coin2 = coin(position_coin.x+40, position_coin.y)
-
+        global coin
+        
         # définir une liste qui va stocket les retangles de collisions
         self.walls = []
         self.plateforme = []
@@ -51,13 +50,20 @@ class Game:
                 self.bordure_carte.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
             if obj.type == 'suicide':
                 self.bordure_suicide.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            if obj.name == 'piece':
+                self.list_coin.append(coin(obj.x, obj.y, 'img/coin/MonedaD.png', 'piece_or'))
+            if obj.name == 'super_piece':
+                self.list_coin.append(coin(obj.x, obj.y, 'img/coin/spr_coin_roj.png', 'rubis'))
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
         self.group.add(self.player) # ajout du joueur dans la carte
-        self.group.add(self.coin)
-        self.group.add(self.coin1)
-        self.group.add(self.coin2)
+        for coin in self.list_coin:
+            self.group.add(coin)
+
+
+        # Score du joueur
+        self.score = 0
         
 
     # récupération des touches enfoncés 
@@ -66,6 +72,9 @@ class Game:
 
         if pressed[pygame.K_ESCAPE]:
             pygame.quit()
+        if pressed[pygame.K_a]:
+            self.coin.remove()
+            print()
 
 
     def update(self):
@@ -134,6 +143,15 @@ class Game:
                     self.player.graviter = True
                     self.player.saut_disponible = False
         self.graviter()
+        
+
+        for coin in self.list_coin:
+            if self.player.rect.colliderect(coin):
+                if coin.type == 'piece_or':
+                    self.score += 10
+                if coin.type == 'rubis':
+                    self.score += 100
+                coin.position[1] += 1000
 
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):
@@ -145,7 +163,7 @@ class Game:
         if self.player.vitesse_y < 10 and self.player.graviter:
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
-            self.player.vitesse_y += 0.15
+            self.player.vitesse_y += 0.1
         
 
 
@@ -165,10 +183,12 @@ class Game:
             self.group.center(self.player.rect)
             self.group.draw(self.screen) # affichage de la carte
             pygame.display.flip()
+            print(self.score)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     jeu = False
+
             tickrate.tick(60) # Rafraichissement = 60 IPS
 
         pygame.quit()
