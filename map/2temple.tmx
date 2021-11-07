@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="200">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="202">
  <tileset firstgid="1" source="nature.tsx"/>
  <tileset firstgid="721" source="Tileset.tsx"/>
  <layer id="1" name="background" width="300" height="50" locked="1">
@@ -275,6 +275,9 @@
    <point/>
   </object>
   <object id="199" name="super_piece" type="super_piece" x="3475.03" y="587.364">
+   <point/>
+  </object>
+  <object id="201" name="score" x="3516.67" y="444.667">
    <point/>
   </object>
  </objectgroup>

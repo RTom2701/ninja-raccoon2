@@ -121,7 +121,7 @@ class Game:
                     self.player.deplacement_disponible[3] = True
 
                 # collision entre le bas de la plateforme et le haut du joueur
-                if abs(self.plateforme[i].bottom - self.player.rect.top) <= self.player.tolerance:
+                if abs(self.plateforme[i].bottom - self.player.rect.top) <= self.player.tolerance: # On soustrait les deux
                     self.player.deplacement_disponible[2] = False
                     self.player.saut_bloque = True
                 else:
@@ -144,22 +144,24 @@ class Game:
                     self.player.saut_disponible = False
         self.graviter()
         
-
+        # Vérification collision coin et si il y a une collision on ajout des points
         for coin in self.list_coin:
             if self.player.rect.colliderect(coin):
                 if coin.type == 'piece_or':
-                    self.score += 10
+                    self.score += 10 # ajoute au score des points
                 if coin.type == 'rubis':
-                    self.score += 100
-                coin.position[1] += 1000
+                    self.score += 100 # ajoute au score des points
+                coin.position[1] += 1000 # deplace la piece hors du champs
 
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):
                 self.jeu = False
 
     def graviter(self):
+        # le joueur tombe continuellement si il peut
         if self.player.graviter:
             self.player.position[1] += self.player.vitesse_y
+        # Plus le joueur tombe, plus il ira vite sans depasser 10
         if self.player.vitesse_y < 10 and self.player.graviter:
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1

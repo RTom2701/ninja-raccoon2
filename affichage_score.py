@@ -1,6 +1,6 @@
 import pygame
 
-class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "super class" pour pouvoir gerer les sprites
+class affichage_score(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "super class" pour pouvoir gerer les sprites
 
     def __init__(self, x, y):
         super().__init__()
@@ -22,13 +22,12 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         self.tolerance = 10 # tolerance pour la collision
         self.saut_disponible = True # savoir si le saut est possible
         self.graviter = True # graviter dispobible ou non
-        self.chute_disponible = True # savoir si le personne peut tomber
         self.saut_bloque = False
         self.puissance_saut = 0 
     
     # changement animation
     def changer_animation(self, name):
-        # On charge une "nouvelle"
+        # On charge une "nouvelle" image
         self.image = self.images[name]
         self.image.set_colorkey((0, 0, 0))
 
@@ -74,39 +73,20 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         if not pressed[pygame.K_RIGHT] and not pressed[pygame.K_LEFT]:
             self.vitesse_x = 3
         
-        '''if pressed[pygame.K_UP] and self.deplacement_disponible[2]:
-            self.chute_disponible = False
-            self.vitesse_y = 0
-            self.position[1] -= 5'''
-        
         if not pressed[pygame.K_UP]:
-            self.chute_disponible = True
             self.puissance_saut = 0
         
         if pressed[pygame.K_UP] and  self.puissance_saut > 0:
-            if self.saut_bloque:
+            if self.saut_bloque: #si un mur est présent au dessus (= saut bloqué) le saut s'annule directement
                 self.puissance_saut = 0
-            self.vitesse_y = -1*(self.puissance_saut/12)
-            self.puissance_saut -= 1
-            self.position[1] += self.vitesse_y
-            self.saut_disponible = False
-            if self.vitesse_x > 3:
+            self.vitesse_y = -1*(self.puissance_saut/12) #réglage du saut en fonction d'un diviseur
+            self.puissance_saut -= 1 #la puissance du saut diminue à chaque itération
+            self.position[1] += self.vitesse_y #actualise la position en fonction de la vitesse
+            self.saut_disponible = False #le saut est effectué, il est impossible de sauter à nouveau sans toucher le sol
+            if self.vitesse_x > 3: #la vitesse diminue jusqu'à un minimum une fois en l'air pour éviter de sauter trop loin
                 self.vitesse_x -= 1
-        if pressed[pygame.K_UP] and  self.puissance_saut <= 0:
+        if pressed[pygame.K_UP] and  self.puissance_saut <= 0: #évite un blocage où il n'est plus possible de sauter
             self.saut_disponible == True
             
-            
-            """
-            compteur_longueur_saut = 0
-            self.vitesse_y = -1
-            self.saut_disponible = False
-            self.position[1] += self.vitesse_y
-            pressed = pygame.key.get_pressed()
-            while pressed[pygame.K_UP] and compteur_longueur_saut <= 3:
-                compteur_longueur_saut+=1
-                self.vitesse_y += -1
-                self.position[1] += self.vitesse_y
-                pressed = pygame.key.get_pressed()
-            """
 
 
