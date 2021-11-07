@@ -19,7 +19,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         self.vitesse_x = 3 # Ne doit pas depasser 10
         self.vitesse_y = 0 # Ne doit pas depasser 10
         self.deplacement_disponible = [True, True, True, True] # Gauche, Droite, Haut, Bas
-        self.tolerance = 5 # tolerance pour la collision
+        self.tolerance = 10 # tolerance pour la collision
         self.saut_disponible = True
         self.graviter = True # graviter dispobible ou non
         self.chute_disponible = True # savoir si le personne peut tomber

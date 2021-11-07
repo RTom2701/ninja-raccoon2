@@ -13,7 +13,7 @@ pygame.init()
 class Game:
     def __init__(self, map, score):
         # créer la fenetre du jeu
-        self.dimension = (800, 600)
+        self.dimension = (1920, 1080)
         self.screen = pygame.display.set_mode(self.dimension)
         pygame.display.set_caption("Mon jeu x)")
 

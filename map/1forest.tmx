@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="136">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="139">
  <tileset firstgid="1" source="nature.tsx"/>
  <layer id="1" name="background" width="300" height="50">
   <data encoding="csv">
@@ -236,10 +236,10 @@
   <object id="96" type="plateforme" x="1808.92" y="641.083" width="30.6667" height="30.3333"/>
  </objectgroup>
  <objectgroup id="3" name="Objets">
-  <object id="1" name="Player" x="34.4546" y="572.273">
+  <object id="1" name="Player" x="86.4546" y="554.939">
    <point/>
   </object>
-  <object id="15" name="ennemi" x="218" y="541.333">
+  <object id="15" name="piece" type="piece" x="243.333" y="578">
    <point/>
   </object>
   <object id="29" type="plateforme" x="-16" y="608" width="384" height="176"/>
@@ -282,7 +282,10 @@
   <object id="132" type="plateforme" x="4192.6" y="750.811" width="607.47" height="17.0453"/>
   <object id="133" type="plateforme" x="752.667" y="464.667" width="126" height="30.6667"/>
   <object id="134" type="plateforme" x="3985.02" y="449.477" width="29.9697" height="28.3792"/>
-  <object id="135" name="piece" type="piece" x="161.5" y="514">
+  <object id="137" name="ennemi" x="221.333" y="528">
+   <point/>
+  </object>
+  <object id="138" name="piece" type="piece" x="296" y="580.667">
    <point/>
   </object>
  </objectgroup>
