@@ -1,5 +1,5 @@
 import pygame
-
+#non implémenté
 class ennemi(pygame.sprite.Sprite):
     def __init__(self, x, y, image, coordonnee_sprite_x, coordonnee_sprite_y):
         super().__init__()

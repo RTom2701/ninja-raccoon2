@@ -6,27 +6,36 @@ import pygame
 import pytmx
 import pyscroll 
 
+
+#Sélection du niveau(dans la console)
+
+niveau = int(input("Niveau 1 ou 2?"))
+if niveau == 2:
+    niveau = 'map/2temple.tmx'
+else: #Sélectionne le niveau 1 même si la réponse est incorrecte car c'est le niveau par défaut
+    niveau =  'map/1forest.tmx' 
+
 # Initialisation de pygame
-fichier = 'musique.mp3'
 pygame.init()
-pygame.mixer.init()
-pygame.mixer.music.load(fichier)
-pygame.mixer.music.play(-1) # If the loops is -1 then the music will repeat indefinitely.
-pygame.mixer.music.set_volume(0.05)
+pygame.mixer.init() #initialiste la méthode de son de pygame
+pygame.mixer.music.load('musique.mp3') #charge la musique
+pygame.mixer.music.play(-1) # Répète la musique indéfiniment
+pygame.mixer.music.set_volume(0.05) # Règle le volume
 
 # class jeu
 class Game:
-    def __init__(self, map, score):
+    def __init__(self):
         # créer la fenetre du jeu
-        self.dimension = (1920, 1080)
+        self.dimension = (800, 600)
         self.screen = pygame.display.set_mode(self.dimension)
         pygame.display.set_caption("Ninja Raccoon 2")
 
         # Pour que le jeu se lance
         self.jeu = True
+        
 
         # charger la carte
-        tmx_data = pytmx.util_pygame.load_pygame(map) # spécification du fichier de la carte
+        tmx_data = pytmx.util_pygame.load_pygame(niveau) # spécification du fichier de la carte
         map_data = pyscroll.data.TiledMapData(tmx_data) # récupérer les données du tmx
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size()) # récupération des calques (des différents plans de la carte)
         map_layer.zoom = 2 # zoom sur une zone
@@ -45,6 +54,7 @@ class Game:
         self.plateforme = []
         self.bordure_carte = []
         self.bordure_suicide = []
+        
 
         for obj in tmx_data.objects: # récupération de tous les objets dans la carte
             if obj.type == 'collision':
@@ -68,8 +78,11 @@ class Game:
 
 
         # Score du joueur
-        self.score = score
+        self.score = 0
         
+        #Timer de la partie
+        self.timer = 0
+        self.compteur_timer = 0 #Sert à compter les 60 frames que compose une seconde
 
     # récupération des touches enfoncés 
     def recuperation_input(self):
@@ -119,14 +132,14 @@ class Game:
                 if abs(self.plateforme[i].top - self.player.rect.bottom) <= self.player.tolerance:
                     self.player.deplacement_disponible[3] = False
                     self.player.graviter = False # empeche la gravité
-                    self.player.saut_disponible = True
+                    self.player.saut_disponible = True # le joueur touche le sol, il est donc possible de sauter à nouveau
                     self.player.saut_bloque = False
-                    self.player.puissance_saut = 40
+                    self.player.puissance_saut = 35 #règle la puissance du saut et réinitialise la variable
                 else:
                     self.player.deplacement_disponible[3] = True
 
                 # collision entre le bas de la plateforme et le haut du joueur
-                if abs(self.plateforme[i].bottom - self.player.rect.top) <= self.player.tolerance: # On soustrait les deux
+                if abs(self.plateforme[i].bottom - self.player.rect.top) <= self.player.tolerance:
                     self.player.deplacement_disponible[2] = False
                     self.player.saut_bloque = True
                 else:
@@ -149,24 +162,22 @@ class Game:
                     self.player.saut_disponible = False
         self.graviter()
         
-        # Vérification collision coin et si il y a une collision on ajout des points
+
         for coin in self.list_coin:
             if self.player.rect.colliderect(coin):
                 if coin.type == 'piece_or':
-                    self.score += 10 # ajoute au score des points
+                    self.score += 10
                 if coin.type == 'rubis':
-                    self.score += 100 # ajoute au score des points
-                coin.position[1] += 1000 # deplace la piece hors du champs
+                    self.score += 100
+                coin.position[1] += 1000
 
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):
                 self.jeu = False
 
     def graviter(self):
-        # le joueur tombe continuellement si il peut
         if self.player.graviter:
             self.player.position[1] += self.player.vitesse_y
-        # Plus le joueur tombe, plus il ira vite sans depasser 10
         if self.player.vitesse_y < 10 and self.player.graviter:
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
@@ -177,6 +188,7 @@ class Game:
     def run(self):
         # tickrate
         tickrate = pygame.time.Clock()
+
 
         # boucle du jeu
         while self.jeu == True:
@@ -189,7 +201,14 @@ class Game:
             self.group.center(self.player.rect)
             self.group.draw(self.screen) # affichage de la carte
             pygame.display.flip()
-            print(self.score)
+            self.compteur_timer+=1
+            
+            #Affiche du timer et du score dans la console à chaque seconde
+            if self.compteur_timer == 60: #Cela signifie qu'une seconde est passée car 60 frames du jeu sont passées
+                self.compteur_timer = 0 #remise à zéro du compteur de secondes
+                self.timer+=1
+                print(f"Score:{self.score}    Timer:{self.timer}")
+                
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

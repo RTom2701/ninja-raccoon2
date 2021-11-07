@@ -1,6 +1,6 @@
 import pygame
 
-class coin(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "super class" pour pouvoir gerer les sprites
+class coin(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une "super class" pour pouvoir gerer les sprites
 
     def __init__(self, x, y, image, type):
         super().__init__()
@@ -76,7 +76,6 @@ class coin(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "sup
     # Mise à jour de la position du joueur
     def update(self):
         self.rect.topleft = self.position # Prendre la position du joueur
-        # Permet un changement fluide de l'animation
         if self.type == 'piece_or':
             self.changer_animation(self.etape[0], 'piece_or')
             if self.etape[0] < 5.75:
@@ -103,3 +102,6 @@ class coin(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "sup
         image = pygame.Surface([16, 16]) # extraction image
         image.blit(self.sprite_sheet, (0, 0), (x, y, 16, 16)) # extraction d'un morceau de l'image 
         return image
+        
+    def remove(self):
+        self.all_coin.remove()
