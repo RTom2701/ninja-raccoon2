@@ -1,7 +1,8 @@
 import pygame
 import game
+from menu import Application
 
 if __name__ == '__main__':
     pygame.init()
-    game = game.Game()
-    game.run()
+    app = Application()
+    app.menu()
