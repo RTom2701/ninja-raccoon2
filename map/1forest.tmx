@@ -437,7 +437,7 @@
   <object id="199" name="piece" type="piece" x="3585" y="636">
    <point/>
   </object>
-  <object id="200" name="skeleton" type="skeleton" x="310.5" y="550">
+  <object id="200" name="skeleton" type="skeleton" x="309" y="566">
    <point/>
   </object>
  </objectgroup>
