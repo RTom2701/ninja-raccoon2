@@ -1,16 +1,23 @@
 from game import Game
+from pygame.constants import GL_ACCELERATED_VISUAL
+from player import joueur
+from ennemi import ennemi
+from coin import coin
+from projectile import Projectile
 import pygame
+import pytmx
+import pyscroll 
  
 surfaceW = 800 #Dimension de la fenêtre / Largeur
 surfaceH = 600 #Dimension de la fenêtre / Longueur
- 
+
 class Menu :
     """ Création et gestion des boutons d'un menu """
     def __init__(self, action, *groupes) :
         self.couleurs = dict(normal=(0, 200, 0),survol=(0, 200, 200))
         font = pygame.font.SysFont('Helvetica', 24, bold=True)
         # noms des menus et commandes associées
-        items = (('JOUER', action.jeu),('QUITTER', action.quitter))
+        items = (('NIVEAU 1', action.lancement),('NIVEAU 2', action.lancement2),('QUITTER', action.quitter))
         x = 400
         y = 200
         self.boutons = []
@@ -94,7 +101,7 @@ class Application :
         # Groupe de sprites utilisé pour l'affichage
         self.groupeGlobal = pygame.sprite.Group()
         self.statut = True
-        self.game=Game()
+        self.jeu=None
  
     def _initialiser(self) :
         try:
@@ -109,9 +116,14 @@ class Application :
         self._initialiser()
         self.ecran = Menu(self, self.groupeGlobal)
  
-    def jeu(self):
-        self.game.run()
- 
+    def lancement(self):
+        self.jeu=Game('map/1forest.tmx')
+        self.jeu.run()
+
+    def lancement2(self):
+        self.jeu=Game('map/2temple.tmx')
+        self.jeu.run()
+
     def quitter(self) :
         self.statut = False
  

@@ -6,15 +6,7 @@ from projectile import Projectile
 import pygame
 import pytmx
 import pyscroll 
-
-
-#Sélection du niveau(dans la console)
-
-niveau = int(input("Niveau 1 ou 2?"))
-if niveau == 2:
-    niveau = 'map/2temple.tmx'
-else: #Sélectionne le niveau 1 même si la réponse est incorrecte car c'est le niveau par défaut
-    niveau =  'map/1forest.tmx' 
+ 
 
 # Initialisation de pygame
 pygame.init()
@@ -25,7 +17,7 @@ pygame.mixer.music.set_volume(0.05) # Règle le volume
 
 # class jeu
 class Game:
-    def __init__(self):
+    def __init__(self,niveau):
         # créer la fenetre du jeu
         self.dimension = (800, 600)
         self.screen = pygame.display.set_mode(self.dimension)
