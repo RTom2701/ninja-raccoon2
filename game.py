@@ -46,10 +46,10 @@ class Game:
 
         # generation des pieces
         self.list_coin = []
+        global coin
 
         # generation des shurikens
         self.list_shuriken = []
-        global coin
 
         # generation des ennemis
         self.list_ennemis = []
@@ -78,7 +78,7 @@ class Game:
                 super_piece = coin(obj.x, obj.y, 'img/coin/spr_coin_roj.png', 'rubis')
                 self.list_coin.append(super_piece)
             if obj.name == 'skeleton':
-                self.list_coin.append(ennemis(obj.x, obj.y, 'img/ennemis/Skeleton_Idle.png', None))
+                self.list_ennemis.append(ennemis(obj.x, obj.y, 'img/ennemis/Skeleton_Idle.png', 'skeleton'))
         
 
         # dessiner le groupe de calques
@@ -183,6 +183,11 @@ class Game:
                     self.score += 100
                 coin.position[1] += 1000
 
+        for ennemis in self.list_ennemis:
+            if self.player.rect.colliderect(ennemis):
+                self.player.position[0],self.player.position[1] = self.player.position_initiale
+                self.mort += 1
+
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):
                 self.player.position[0],self.player.position[1] = self.player.position_initiale
@@ -191,6 +196,7 @@ class Game:
         for shurikens in self.list_shuriken:
             if shurikens.rect.left > self.player.position[0]+50:
                 del self.list_shuriken[0]
+
 
     def graviter(self):
         if self.player.graviter:
@@ -231,7 +237,6 @@ class Game:
             pygame.display.flip()
 
             self.compteur_timer+=1
-            print(self.group)
             
             #Affiche du timer et du score dans la console à chaque seconde
             if self.compteur_timer == 60: #Cela signifie qu'une seconde est passée car 60 frames du jeu sont passées
