@@ -9,9 +9,8 @@ class coin(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une "su
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.position = [x, y]
-        self.all_coin = pygame.sprite.Group()
         self.type = type
-        # animation joueur
+        # animation piece
         self.animation_piece_or = {
             1 : self.recuperer_sprite(0, 0), # phase 1 
             1.25 : self.recuperer_sprite(0, 0), # phase 1 
@@ -102,6 +101,3 @@ class coin(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une "su
         image = pygame.Surface([16, 16]) # extraction image
         image.blit(self.sprite_sheet, (0, 0), (x, y, 16, 16)) # extraction d'un morceau de l'image 
         return image
-        
-    def remove(self):
-        self.all_coin.remove()

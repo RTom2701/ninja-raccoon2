@@ -2,6 +2,7 @@ from pygame.constants import GL_ACCELERATED_VISUAL
 from player import joueur
 from ennemi import ennemi
 from coin import coin
+from projectile import Projectile
 import pygame
 import pytmx
 import pyscroll 
@@ -32,7 +33,6 @@ class Game:
 
         # Pour que le jeu se lance
         self.jeu = True
-        
 
         # charger la carte
         tmx_data = pytmx.util_pygame.load_pygame(niveau) # spécification du fichier de la carte
@@ -46,8 +46,10 @@ class Game:
 
         # generation des pieces
         self.list_coin = []
-        position_coin = tmx_data.get_object_by_name("piece")
         global coin
+
+        # generation des shurikens
+        self.list_shuriken = []
         
         # définir une liste qui va stocket les retangles de collisions
         self.walls = []
@@ -79,10 +81,16 @@ class Game:
 
         # Score du joueur
         self.score = 0
+        self.mort = 0
         
         #Timer de la partie
         self.timer = 0
         self.compteur_timer = 0 #Sert à compter les 60 frames que compose une seconde
+    
+    def lancer(self):
+        if len(self.list_shuriken) < 1:
+            self.list_shuriken.append(Projectile(self.player.position[0], self.player.position[1]))
+            self.group.add(self.list_shuriken)
 
     # récupération des touches enfoncés 
     def recuperation_input(self):
@@ -90,20 +98,13 @@ class Game:
 
         if pressed[pygame.K_ESCAPE]:
             pygame.quit()
+        
         if pressed[pygame.K_a]:
-            self.coin.remove()
-            print()
+            self.lancer()
 
 
     def update(self):
         self.group.update()
-        
-        # verification collision
-        '''for sprite in self.group.sprites():
-            if sprite.rect.collidelist(self.walls) > -1:
-                self.player.saut_disponible = True               
-                self.player.revenir()'''
-
         # collision bordure
         if self.player.rect.right >= self.bordure_carte[0].width: # côté droit
             self.player.deplacement_disponible[1] = False
@@ -173,7 +174,12 @@ class Game:
 
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):
-                self.jeu = False
+                self.player.position[0],self.player.position[1] = self.player.position_initiale
+                self.mort += 1
+        
+        for shurikens in self.list_shuriken:
+            if shurikens.rect.left > self.player.position[0]+50:
+                del self.list_shuriken[0]
 
     def graviter(self):
         if self.player.graviter:
@@ -182,26 +188,39 @@ class Game:
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
             self.player.vitesse_y += 0.1
-        
+    
 
 
     def run(self):
         # tickrate
         tickrate = pygame.time.Clock()
 
+        # Création d'un "fond" pour avoir un style et une taille
+        font = pygame.font.SysFont("monospace", 30)
 
         # boucle du jeu
         while self.jeu == True:
-            '''print(self.player.chute_disponible, self.player.graviter)'''
-            '''print(self.player.deplacement_disponible)'''
-            self.player.sauvegarder_pos()
-            self.recuperation_input()
-            self.player.deplacer()
+
+            self.player.sauvegarder_pos() # sauvegarde la position du joueur
+            self.recuperation_input() # Exécute des commandes si une touche est préssé 
+            self.player.deplacer() # Permet le deplamement du joueur
             self.update() # mise à jour du joueur
             self.group.center(self.player.rect)
             self.group.draw(self.screen) # affichage de la carte
+
+            # Utilisation du fond pour introduire un texte 
+            score_text = font.render(f'Score : {self.score} ', 1, (0,0,0))
+            mort_text = font.render(f'Morts : {self.mort} ', 1, (0,0,0))
+            timer_text = font.render(f'Timer : {self.timer} ', 1, (0,0,0))
+            # On ajoute à l'écran le texte
+            self.screen.blit(score_text, (20,20))
+            self.screen.blit(mort_text, (20,40))
+            self.screen.blit(timer_text, (20,60))
+            # Actualisation de l'affichage
             pygame.display.flip()
+
             self.compteur_timer+=1
+            print(self.group)
             
             #Affiche du timer et du score dans la console à chaque seconde
             if self.compteur_timer == 60: #Cela signifie qu'une seconde est passée car 60 frames du jeu sont passées
@@ -216,4 +235,4 @@ class Game:
 
             tickrate.tick(60) # Rafraichissement = 60 IPS
 
-        pygame.quit()
+        pygame.quit() # Ferme la fenetre du jeu

@@ -1,13 +1,14 @@
 import pygame
+from projectile import Projectile
 
 class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "super class" pour pouvoir gerer les sprites
 
     def __init__(self, x, y):
         super().__init__()
-        self.sprite_sheet = pygame.image.load('img/player.png')
-        self.image = self.recuperer_sprite(0, 0)
-        self.image.set_colorkey([0, 0, 0])
-        self.rect = self.image.get_rect()
+        self.sprite_sheet = pygame.image.load('img/player.png') # Récupération du sprite
+        self.image = self.recuperer_sprite(0, 0) # Découpage du sprite
+        self.image.set_colorkey([0, 0, 0]) # Mise en transparence du sprite
+        self.rect = self.image.get_rect() # Création d'un réctangle qui fait les dimensions du sprite
         self.position = [x, y]
         # animation joueur
         self.images = {
@@ -15,7 +16,8 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             'droite': self.recuperer_sprite(0, 32) # face gauche
 
         }
-        self.ancienne_position = self.position.copy()
+        self.position_initiale = (x, y)
+        self.ancienne_position = self.position.copy() # garde en memoire l'ancienne position du joueur pour pouvoir la copier 
         self.vitesse_x = 3 # Ne doit pas depasser 10
         self.vitesse_y = 0 # Ne doit pas depasser 10
         self.deplacement_disponible = [True, True, True, True] # Gauche, Droite, Haut, Bas
@@ -25,6 +27,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         self.chute_disponible = True # savoir si le personne peut tomber
         self.saut_bloque = False
         self.puissance_saut = 0
+
     
     # changement animation
     def changer_animation(self, name):
