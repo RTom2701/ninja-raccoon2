@@ -1,6 +1,6 @@
 from pygame.constants import GL_ACCELERATED_VISUAL
 from player import joueur
-from ennemi import ennemi
+from ennemis import ennemis
 from coin import coin
 from projectile import Projectile
 import pygame
@@ -46,11 +46,15 @@ class Game:
 
         # generation des pieces
         self.list_coin = []
-        global coin
 
         # generation des shurikens
         self.list_shuriken = []
-        
+        global coin
+
+        # generation des ennemis
+        self.list_ennemis = []
+        global ennemis
+
         # définir une liste qui va stocket les retangles de collisions
         self.walls = []
         self.plateforme = []
@@ -68,15 +72,22 @@ class Game:
             if obj.type == 'suicide':
                 self.bordure_suicide.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
             if obj.name == 'piece':
-                self.list_coin.append(coin(obj.x, obj.y, 'img/coin/MonedaD.png', 'piece_or'))
+                piece = coin(obj.x, obj.y, 'img/coin/MonedaD.png', 'piece_or')
+                self.list_coin.append(piece)
             if obj.name == 'super_piece':
-                self.list_coin.append(coin(obj.x, obj.y, 'img/coin/spr_coin_roj.png', 'rubis'))
+                super_piece = coin(obj.x, obj.y, 'img/coin/spr_coin_roj.png', 'rubis')
+                self.list_coin.append(super_piece)
+            if obj.name == 'skeleton':
+                self.list_coin.append(ennemis(obj.x, obj.y, 'img/ennemis/Skeleton_Idle.png', None))
+        
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
         self.group.add(self.player) # ajout du joueur dans la carte
         for coin in self.list_coin:
             self.group.add(coin)
+        for ennemis in self.list_ennemis:
+            self.group.add(ennemis)
 
 
         # Score du joueur

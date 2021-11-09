@@ -38,7 +38,6 @@ class Projectile(pygame.sprite.Sprite):
     def changer_animation(self,name):
         self.image = self.animation_piece_or[name]
         self.image.set_colorkey((0, 0, 0))
-        print('animation')
 
     # Mise à jour de la position du joueur
     def update(self):
