@@ -165,7 +165,6 @@ class Game:
                     self.player.graviter = True
                     self.player.saut_disponible = False
         self.graviter()
-        
 
         for coin in self.list_coin:
             if self.player.rect.colliderect(coin):
@@ -179,6 +178,10 @@ class Game:
             if self.player.rect.colliderect(ennemis):
                 self.player.position[0],self.player.position[1] = self.player.position_initiale
                 self.mort += 1
+            if ennemis.rect.collidelist(self.list_shuriken) >= 0:
+                ennemis.position[1] += 500
+                self.score += 250 
+                print("blabla")
 
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):
@@ -186,7 +189,7 @@ class Game:
                 self.mort += 1
         
         for shurikens in self.list_shuriken:
-            if shurikens.rect.left > self.player.position[0]+50:
+            if shurikens.rect.left > self.player.position[0]+300:
                 del self.list_shuriken[0]
 
 
