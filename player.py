@@ -89,4 +89,3 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             self.saut_disponible = False
             if self.vitesse_x > 3:
                 self.vitesse_x -= 1
-

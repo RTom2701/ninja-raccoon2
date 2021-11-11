@@ -20,7 +20,7 @@ pygame.mixer.music.set_volume(0.05) # Règle le volume
 class Game:
     def __init__(self,niveau):
         # créer la fenetre du jeu
-        self.dimension = (800, 600)
+        self.dimension = (1280, 720)
         self.screen = pygame.display.set_mode(self.dimension) 
         pygame.display.set_caption("Ninja Raccoon 2") # Nom de la fenetre
 
@@ -31,7 +31,7 @@ class Game:
         tmx_data = pytmx.util_pygame.load_pygame(niveau) # spécification du fichier de la carte
         map_data = pyscroll.data.TiledMapData(tmx_data) # récupérer les données du tmx
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size()) # récupération des calques (des différents plans de la carte)
-        map_layer.zoom = 2 # zoom sur une zone
+        map_layer.zoom = 1.5 # zoom sur une zone
 
         # generer un joueur
         position_joueur = tmx_data.get_object_by_name("Player") # On récupére l'objet qui s'appelle joueur sur la carte
