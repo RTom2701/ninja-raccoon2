@@ -47,11 +47,12 @@ class Game:
         self.list_ennemis = []
         global ennemis
 
-        # définir une liste qui va stocket les retangles de collisions
+        # définir une liste qui va stocker les retangles de collisions
         self.walls = []
         self.plateforme = []
         self.bordure_carte = []
         self.bordure_suicide = []
+        self.fin = []
         
 
         for obj in tmx_data.objects: # récupération de tous les objets dans la carte
@@ -71,6 +72,8 @@ class Game:
                 self.list_coin.append(super_piece)
             if obj.name == 'skeleton':
                 self.list_ennemis.append(ennemis(obj.x, obj.y, 'img/ennemis/Skeleton_Idle.png', 'skeleton'))
+            if obj.name == 'fin':
+                self.fin.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
         
 
         # dessiner le groupe de calques
@@ -191,11 +194,16 @@ class Game:
             if shurikens.rect.left > self.player.position[0]+300:
                 del self.list_shuriken[0]
 
+        for fin in self.fin:
+            if self.player.rect.colliderect(fin):
+                self.jeu = False
+                print('fin')
+
 
     def graviter(self):
         if self.player.graviter:
             self.player.position[1] += self.player.vitesse_y
-        if self.player.vitesse_y < 10 and self.player.graviter:
+        if self.player.vitesse_y < 4 and self.player.graviter:
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
             self.player.vitesse_y += 0.1

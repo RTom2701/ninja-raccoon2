@@ -47,7 +47,7 @@ class Projectile(pygame.sprite.Sprite):
             self.etape += 0.25
         else:
             self.etape = 1
-        self.position[0] += 3
+        self.position[0] += 4
         
     # sauvegarde de la position du joueur
     def sauvegarder_pos(self):
