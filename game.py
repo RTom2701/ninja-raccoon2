@@ -1,3 +1,4 @@
+# Implémentation des librairies souhaités
 from pygame.constants import GL_ACCELERATED_VISUAL
 from player import joueur
 from ennemis import ennemis
@@ -20,8 +21,8 @@ class Game:
     def __init__(self,niveau):
         # créer la fenetre du jeu
         self.dimension = (800, 600)
-        self.screen = pygame.display.set_mode(self.dimension)
-        pygame.display.set_caption("Ninja Raccoon 2")
+        self.screen = pygame.display.set_mode(self.dimension) 
+        pygame.display.set_caption("Ninja Raccoon 2") # Nom de la fenetre
 
         # Pour que le jeu se lance
         self.jeu = True
@@ -33,19 +34,8 @@ class Game:
         map_layer.zoom = 2 # zoom sur une zone
 
         # generer un joueur
-        position_joueur = tmx_data.get_object_by_name("Player")
+        position_joueur = tmx_data.get_object_by_name("Player") # On récupére l'objet qui s'appelle joueur sur la carte
         self.player = joueur(position_joueur.x, position_joueur.y)
-
-        # generation des pieces
-        self.list_coin = []
-        global coin
-
-        # generation des shurikens
-        self.list_shuriken = []
-
-        # generation des ennemis
-        self.list_ennemis = []
-        global ennemis
 
         # définir une liste qui va stocker les retangles de collisions
         self.walls = []
@@ -53,10 +43,15 @@ class Game:
         self.bordure_carte = []
         self.bordure_suicide = []
         self.fin = []
+        self.list_shuriken = []
+        self.list_coin = []
+        global coin
+        self.list_ennemis = []
+        global ennemis
         
 
         for obj in tmx_data.objects: # récupération de tous les objets dans la carte
-            if obj.type == 'collision':
+            if obj.type == 'collision': # Si on trouve un rectangle sur la carte de type collision on l'ajoute à la liste qui lui est attribué
                 self.walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
             if obj.type == 'plateforme':
                 self.plateforme.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
@@ -64,7 +59,8 @@ class Game:
                 self.bordure_carte.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
             if obj.type == 'suicide':
                 self.bordure_suicide.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
-            if obj.name == 'piece':
+            
+            if obj.name == 'piece': # Si on trouve un piece sur la carte on crée une piece et on l'ajoute dans la liste des pièces
                 piece = coin(obj.x, obj.y, 'img/coin/MonedaD.png', 'piece_or')
                 self.list_coin.append(piece)
             if obj.name == 'super_piece':
@@ -72,17 +68,17 @@ class Game:
                 self.list_coin.append(super_piece)
             if obj.name == 'skeleton':
                 self.list_ennemis.append(ennemis(obj.x, obj.y, 'img/ennemis/Skeleton_Idle.png', 'skeleton'))
-            if obj.name == 'fin':
+
+            if obj.name == 'fin': # Si on trouve un objet sur la carte qui se nome fin on l'ajoute à la liste fin
                 self.fin.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
-        
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
         self.group.add(self.player) # ajout du joueur dans la carte
         for coin in self.list_coin:
-            self.group.add(coin)
+            self.group.add(coin) # Ajoute toutes les pieces au groupe
         for ennemis in self.list_ennemis:
-            self.group.add(ennemis)
+            self.group.add(ennemis) # Ajoute tous les ennemis dans le groupe
 
 
         # Score du joueur
@@ -93,14 +89,17 @@ class Game:
         self.timer = 0
         self.compteur_timer = 0 #Sert à compter les 60 frames que compose une seconde
     
+    # Méthode #
+
+    # Méthode qui permet au joueur de lancer un shuriken
     def lancer(self):
         if len(self.list_shuriken) < 1:
-            self.list_shuriken.append(Projectile(self.player.position[0], self.player.position[1]))
-            self.group.add(self.list_shuriken)
+            self.list_shuriken.append(Projectile(self.player.position[0], self.player.position[1])) # On cré un projectile et on l'ajoute à la liste shuriken
+            self.group.add(self.list_shuriken) # On ajoute au groupe le shuriken
 
-    # récupération des touches enfoncés 
+    # Méthode qui fait la récupération des touches enfoncés 
     def recuperation_input(self):
-        pressed = pygame.key.get_pressed()
+        pressed = pygame.key.get_pressed() # Permet de savoir si une touche est pressé
 
         if pressed[pygame.K_ESCAPE]:
             pygame.quit()
@@ -108,10 +107,11 @@ class Game:
         if pressed[pygame.K_a]:
             self.lancer()
 
-
+    # Méthode qui permet la mise à jour des éléments sur la carte
     def update(self):
-        self.group.update()
-        # collision bordure
+        self.group.update() # Met à jour tout les groupes pour permettre une animation
+
+        # collision bordure de la carte
         if self.player.rect.right >= self.bordure_carte[0].width: # côté droit
             self.player.deplacement_disponible[1] = False
         else:
@@ -133,14 +133,14 @@ class Game:
             self.player.deplacement_disponible[2] = True
 
         for i in range(len(self.plateforme)):
-            if self.plateforme[i].colliderect(self.player.rect):
+            if self.plateforme[i].colliderect(self.player.rect): # Vérification si il y a une collision entre le joueur et le réctangle
 
                 # collision entre le haut de la plateforme et le bas du joueur
                 if abs(self.plateforme[i].top - self.player.rect.bottom) <= self.player.tolerance:
-                    self.player.deplacement_disponible[3] = False
+                    self.player.deplacement_disponible[3] = False # le joueur ne peut plus descendre
                     self.player.graviter = False # empeche la gravité
                     self.player.saut_disponible = True # le joueur touche le sol, il est donc possible de sauter à nouveau
-                    self.player.saut_bloque = False
+                    self.player.saut_bloque = False # bloque le saut du joueur
                     self.player.puissance_saut = 35 #règle la puissance du saut et réinitialise la variable
                 else:
                     self.player.deplacement_disponible[3] = True
@@ -167,15 +167,15 @@ class Game:
                 if self.player.deplacement_disponible[3] == True and self.player.chute_disponible:
                     self.player.graviter = True
                     self.player.saut_disponible = False
-        self.graviter()
+        self.graviter() # Permet la gravité du joueur
 
-        for coin in self.list_coin:
-            if self.player.rect.colliderect(coin):
-                if coin.type == 'piece_or':
+        for coin in self.list_coin: # on vérifie pour toute les pieces 
+            if self.player.rect.colliderect(coin): # On vérifie la collision entre le joueur et la piece
+                if coin.type == 'piece_or': # Si le joueur touche une piece en or on lui ajoute 10 points
                     self.score += 10
                 if coin.type == 'rubis':
                     self.score += 100
-                coin.position[1] += 1000
+                coin.position[1] += 1000 # On "vire" la piece du champ de vision du joueur
 
         for ennemis in self.list_ennemis:
             if self.player.rect.colliderect(ennemis):
@@ -185,31 +185,35 @@ class Game:
                 ennemis.position[1] += 500
                 self.score += 250 
 
+        # Si le joueur tombe dans le vide il gagne une mort et reviens au point d'apparition
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):
                 self.player.position[0],self.player.position[1] = self.player.position_initiale
                 self.mort += 1
         
+        # Empeche le joueur d'abuser du shuriken 
         for shurikens in self.list_shuriken:
             if shurikens.rect.left > self.player.position[0]+300:
                 del self.list_shuriken[0]
 
+        # La statue de fin signifi la fin du niveau donc elle renvois au score
         for fin in self.fin:
             if self.player.rect.colliderect(fin):
                 self.jeu = False
                 print('fin')
 
-
+    # Méthode qui permet la gravité des entitées
     def graviter(self):
         if self.player.graviter:
-            self.player.position[1] += self.player.vitesse_y
-        if self.player.vitesse_y < 4 and self.player.graviter:
+            self.player.position[1] += self.player.vitesse_y # le joueur tombe de vitesse_y
+        # Permet une acceleration de la chute
+        if self.player.vitesse_y < 4 and self.player.graviter: 
             if self.player.vitesse_x > 2:
                 self.player.vitesse_x -= 0.1
             self.player.vitesse_y += 0.1
     
 
-
+    # Méthode qui permet le fonctionnement du jeu
     def run(self):
         # tickrate
         tickrate = pygame.time.Clock()
@@ -246,7 +250,7 @@ class Game:
                 self.timer+=1
                 print(f"Score:{self.score}    Timer:{self.timer}")
                 
-
+            # Si le joueur clique sur la croix le jeu se ferme
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     jeu = False

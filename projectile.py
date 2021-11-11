@@ -9,8 +9,8 @@ class Projectile(pygame.sprite.Sprite):
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.position = [x+10, y+10]
-        # animation joueur
-        self.animation_piece_or = {
+        # animation du projectile
+        self.projectile = {
             1 : self.recuperer_sprite(0, 0), # phase 1 
             1.25 : self.recuperer_sprite(0, 0), # phase 1 
             1.5 : self.recuperer_sprite(0, 0), # phase 1 
@@ -36,27 +36,28 @@ class Projectile(pygame.sprite.Sprite):
 
         # changement animation
     def changer_animation(self,name):
-        self.image = self.animation_piece_or[name]
+        self.image = self.projectile[name]
         self.image.set_colorkey((0, 0, 0))
 
-    # Mise à jour de la position du joueur
+    # Mise à jour de la position
     def update(self):
-        self.rect.topleft = self.position # Prendre la position du joueur
+        self.rect.topleft = self.position # Prendre la position
         self.changer_animation(self.etape)
+        # Permet d'avoir les différentes étapes de l'animation
         if self.etape < 4.75:
             self.etape += 0.25
         else:
             self.etape = 1
         self.position[0] += 4
         
-    # sauvegarde de la position du joueur
+    # sauvegarde de la position
     def sauvegarder_pos(self):
         self.ancienne_position = self.position.copy()
 
     # permet de revenir à l'ancienne position 
     def revenir(self):
         self.position = self.ancienne_position.copy() # revenir à l'ancienne 
-        self.rect.center = self.position # Prendre la position du joueur
+        self.rect.center = self.position # Prendre la position 
 
     def recuperer_sprite(self, x, y):
         image = pygame.Surface([11, 11]) # extraction image

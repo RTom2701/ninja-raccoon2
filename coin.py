@@ -72,9 +72,9 @@ class coin(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une "su
 
         self.image.set_colorkey((0, 0, 0))
 
-    # Mise à jour de la position du joueur
+    # Mise à jour de la position
     def update(self):
-        self.rect.topleft = self.position # Prendre la position du joueur
+        self.rect.topleft = self.position # Prendre la position
         if self.type == 'piece_or':
             self.changer_animation(self.etape[0], 'piece_or')
             if self.etape[0] < 5.75:
@@ -88,14 +88,14 @@ class coin(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une "su
             else:
                 self.etape[1] = 1
         
-    # sauvegarde de la position du joueur
+    # sauvegarde de la position 
     def sauvegarder_pos(self):
         self.ancienne_position = self.position.copy()
 
     # permet de revenir à l'ancienne position 
     def revenir(self):
         self.position = self.ancienne_position.copy() # revenir à l'ancienne 
-        self.rect.topleft = self.position # Prendre la position du joueur
+        self.rect.topleft = self.position # Prendre la position
 
     def recuperer_sprite(self, x, y):
         image = pygame.Surface([16, 16]) # extraction image
