@@ -31,7 +31,7 @@ class Game:
         tmx_data = pytmx.util_pygame.load_pygame(niveau) # spécification du fichier de la carte
         map_data = pyscroll.data.TiledMapData(tmx_data) # récupérer les données du tmx
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size()) # récupération des calques (des différents plans de la carte)
-        map_layer.zoom = 1.5 # zoom sur une zone
+        map_layer.zoom = 3 # zoom sur une zone
 
         # generer un joueur
         position_joueur = tmx_data.get_object_by_name("Player") # On récupére l'objet qui s'appelle joueur sur la carte
@@ -68,6 +68,8 @@ class Game:
                 self.list_coin.append(super_piece)
             if obj.name == 'skeleton':
                 self.list_ennemis.append(ennemis(obj.x, obj.y, 'img/ennemis/Skeleton_Idle.png', 'skeleton'))
+            if obj.name == 'flight':
+                self.list_ennemis.append(ennemis(obj.x, obj.y, 'img/ennemis/Flight_idle.png', 'flight'))
 
             if obj.name == 'fin': # Si on trouve un objet sur la carte qui se nome fin on l'ajoute à la liste fin
                 self.fin.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
