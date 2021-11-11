@@ -113,7 +113,7 @@ class ennemis(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une 
         }
         self.etape = [1, 1]
         self.ancienne_position = self.position.copy()
-        self.vitesse_y = 3
+        self.vitesse_y = 1
 
         # changement animation
     def changer_animation(self,name, type):
@@ -140,11 +140,9 @@ class ennemis(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une 
                 self.etape[1] += 0.25
             else:
                 self.etape[1] = 1
-            if self.position_initial[0]+50 > self.position[0]:
-                if self.position_initial[0]-50 < self.position[0]:
-                    self.position[0] += -1*self.vitesse_y
-                else:
-                    self.position[0] += 1*self.vitesse_y
+            self.position[0] += self.vitesse_y
+            if self.position_initial[0]+50 < self.position[0] or self.position_initial[0]-50 > self.position[0]:
+                self.vitesse_y *= -1
         
     # sauvegarde de la position
     def sauvegarder_pos(self):
