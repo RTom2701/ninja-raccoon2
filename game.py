@@ -11,7 +11,7 @@ import pyscroll
 # Initialisation de pygame
 pygame.init()
 pygame.mixer.init() #initialiste la méthode de son de pygame
-pygame.mixer.music.load('musique.mp3') #charge la musique
+pygame.mixer.music.load('musique/musique.mp3') #charge la musique
 pygame.mixer.music.play(-1) # Répète la musique indéfiniment
 pygame.mixer.music.set_volume(0.05) # Règle le volume
 
@@ -181,7 +181,6 @@ class Game:
             if ennemis.rect.collidelist(self.list_shuriken) >= 0:
                 ennemis.position[1] += 500
                 self.score += 250 
-                print("blabla")
 
         for surface in self.bordure_suicide:
             if surface.colliderect(self.player.rect):

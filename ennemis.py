@@ -6,7 +6,7 @@ class ennemis(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une 
         super().__init__()
         self.sprite_sheet = pygame.image.load(image)
         self.image = self.recuperer_sprite(0, 0)
-        self.image.set_colorkey([0, 0, 0])
+        self.image.set_colorkey([255, 255, 255])
         self.rect = self.image.get_rect()
         self.position = [x, y]
         self.all_ennemis = pygame.sprite.Group()
@@ -76,7 +76,7 @@ class ennemis(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une 
     def changer_animation(self,name, type):
         if type == 'skeleton':
             self.image = self.animation_skeleton[name]
-        self.image.set_colorkey((0, 0, 0))
+            self.image.set_colorkey((255, 255, 255))
 
     # Mise à jour de la position du joueur
     def update(self):

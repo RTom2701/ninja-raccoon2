@@ -1,7 +1,7 @@
 from game import Game
 from pygame.constants import GL_ACCELERATED_VISUAL
 from player import joueur
-from ennemi import ennemi
+from ennemis import ennemis
 from coin import coin
 from projectile import Projectile
 import pygame

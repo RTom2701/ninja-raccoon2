@@ -440,10 +440,10 @@
   <object id="199" name="piece" type="piece" x="3585" y="636">
    <point/>
   </object>
-  <object id="200" name="skeleton" type="skeleton" x="301.5" y="582.5">
+  <object id="200" name="skeleton" type="skeleton" x="304" y="576">
    <point/>
   </object>
-  <object id="201" name="skeleton" type="skeleton" x="347.5" y="580">
+  <object id="201" name="skeleton" type="skeleton" x="336" y="576">
    <point/>
   </object>
  </objectgroup>
