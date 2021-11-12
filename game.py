@@ -96,7 +96,7 @@ class Game:
     # Méthode qui permet au joueur de lancer un shuriken
     def lancer(self):
         if len(self.list_shuriken) < 1:
-            self.list_shuriken.append(Projectile(self.player.position[0], self.player.position[1])) # On cré un projectile et on l'ajoute à la liste shuriken
+            self.list_shuriken.append(Projectile(self.player.position[0], self.player.position[1], 4)) # On cré un projectile et on l'ajoute à la liste shuriken
             self.group.add(self.list_shuriken) # On ajoute au groupe le shuriken
 
     # Méthode qui fait la récupération des touches enfoncés 
@@ -185,6 +185,8 @@ class Game:
                 self.mort += 1
             if ennemis.rect.collidelist(self.list_shuriken) >= 0:
                 ennemis.position[1] += 500
+                for shuriken in self.list_shuriken:
+                    shuriken.position[1] += 500
                 self.score += 250 
 
         # Si le joueur tombe dans le vide il gagne une mort et reviens au point d'apparition
