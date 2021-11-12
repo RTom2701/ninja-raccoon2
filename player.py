@@ -5,16 +5,21 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
 
     def __init__(self, x, y):
         super().__init__() # Initialise la super class
-        self.sprite_sheet = pygame.image.load('img/player.png') # Récupération du sprite
+        self.sprite_sheet = pygame.image.load('img/raccoon.png') # Récupération du sprite
         self.image = self.recuperer_sprite(0, 0) # Découpage du sprite
         self.image.set_colorkey([0, 0, 0]) # Mise en transparence du sprite
         self.rect = self.image.get_rect() # Création d'un réctangle qui fait les dimensions du sprite
         self.position = [x, y] # Attribut des coordonnées de base au joueur
+        self.direction = 'droite'
 
         # animation joueur
         self.images = {
-            'gauche': self.recuperer_sprite(0, 64), # face droite 
-            'droite': self.recuperer_sprite(0, 32) # face gauche
+            'droite': self.recuperer_sprite(0, 0), # face droite 
+            'gauche': self.recuperer_sprite(32, 0), # face gauche
+            'sautdroite': self.recuperer_sprite(192, 0), # face droite 
+            'sautgauche': self.recuperer_sprite(224, 0), # face gauche
+            'chutedroite': self.recuperer_sprite(256, 0), # face droite 
+            'chutegauche': self.recuperer_sprite(288, 0) # face gauche
         }
 
         self.position_initiale = (x, y) # Récupére le point d'apparition du joueur
@@ -62,6 +67,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         # Déplacment joueur
         if pressed[pygame.K_LEFT] and self.deplacement_disponible[0]:
             self.changer_animation('gauche') # changement d'animation
+            self.direction = 'gauche'
             self.position[0] -= self.vitesse_x # déplacement du joueur
             # accélération du joueur
             if self.vitesse_x < 5:
@@ -70,6 +76,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
 
         if pressed[pygame.K_RIGHT] and self.deplacement_disponible[1]:
             self.changer_animation('droite') # changement d'animation
+            self.direction = 'droite'
             self.position[0] += self.vitesse_x # déplacement du joueur
 
             # accélération du joueur
@@ -79,8 +86,22 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         if not pressed[pygame.K_UP]:
             self.chute_disponible = True
             self.puissance_saut = 0
+            if self.saut_disponible == False:
+                if self.direction == 'droite':
+                    self.changer_animation('chutedroite')
+                else:
+                    self.changer_animation('chutegauche')
+            if self.graviter == False:
+                if self.direction == 'droite':
+                    self.changer_animation('droite')
+                else:
+                    self.changer_animation('gauche')
         
         if pressed[pygame.K_UP] and  self.puissance_saut > 0:
+            if self.direction == 'droite':
+                self.changer_animation('sautdroite')
+            else:
+                self.changer_animation('sautgauche')
             if self.saut_bloque:
                 self.puissance_saut = 0
             self.vitesse_y = -1*(self.puissance_saut/12)

@@ -2,7 +2,7 @@ import pygame
 
 class Projectile(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, vitesse):
+    def __init__(self, x, y):
         super().__init__()
         self.sprite_sheet = pygame.image.load("img/shuriken.png")
         self.image = self.recuperer_sprite(0, 0)
@@ -33,7 +33,6 @@ class Projectile(pygame.sprite.Sprite):
         }
         self.etape = 1
         self.ancienne_position = self.position.copy()
-        self.vitesse_x = vitesse
 
         # changement animation
     def changer_animation(self,name):
@@ -49,7 +48,7 @@ class Projectile(pygame.sprite.Sprite):
             self.etape += 0.25
         else:
             self.etape = 1
-        self.position[0] += self.vitesse_x
+        self.position[0] += 4
         
     # sauvegarde de la position
     def sauvegarder_pos(self):
