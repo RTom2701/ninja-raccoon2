@@ -11,15 +11,18 @@ import pyscroll
 
 # Initialisation de pygame
 pygame.init()
-pygame.mixer.init() #initialiste la méthode de son de pygame
-pygame.mixer.music.load('musique/musique.mp3') #charge la musique
-pygame.mixer.music.play(-1) # Répète la musique indéfiniment
-pygame.mixer.music.set_volume(0.05) # Règle le volume
 
 # class jeu
 class Game:
     def __init__(self,niveau):
         # créer la fenetre du jeu
+        pygame.mixer.init() #initialiste la méthode de son de pygame
+        if niveau == 'map/1forest.tmx':
+            pygame.mixer.music.load('son/musique1.mp3')
+        elif niveau == 'map/2temple.tmx':
+            pygame.mixer.music.load('son/musique2.mp3')
+        pygame.mixer.music.play(-1) # Répète la musique indéfiniment
+        pygame.mixer.music.set_volume(0.05) # Règle le volume
         self.dimension = (1280, 720)
         self.screen = pygame.display.set_mode(self.dimension) 
         pygame.display.set_caption("Ninja Raccoon 2") # Nom de la fenetre
@@ -96,8 +99,10 @@ class Game:
     # Méthode qui permet au joueur de lancer un shuriken
     def lancer(self):
         if len(self.list_shuriken) < 1:
-            self.list_shuriken.append(Projectile(self.player.position[0], self.player.position[1], 4)) # On cré un projectile et on l'ajoute à la liste shuriken
+            self.list_shuriken.append(Projectile(self.player.position[0], self.player.position[1])) # On cré un projectile et on l'ajoute à la liste shuriken
             self.group.add(self.list_shuriken) # On ajoute au groupe le shuriken
+            pygame.mixer.Channel(3).set_volume(0.05)
+            pygame.mixer.Channel(3).play(pygame.mixer.Sound('son/shuriken.mp3'))
 
     # Méthode qui fait la récupération des touches enfoncés 
     def recuperation_input(self):
@@ -175,18 +180,25 @@ class Game:
             if self.player.rect.colliderect(coin): # On vérifie la collision entre le joueur et la piece
                 if coin.type == 'piece_or': # Si le joueur touche une piece en or on lui ajoute 10 points
                     self.score += 10
+                    pygame.mixer.Channel(0).set_volume(0.025)
+                    pygame.mixer.Channel(0).play(pygame.mixer.Sound('son/coin.mp3'))
+                    
                 if coin.type == 'rubis':
                     self.score += 100
+                    pygame.mixer.Channel(1).set_volume(0.025)
+                    pygame.mixer.Channel(1).play(pygame.mixer.Sound('son/gem.mp3'))
                 coin.position[1] += 1000 # On "vire" la piece du champ de vision du joueur
 
         for ennemis in self.list_ennemis:
             if self.player.rect.colliderect(ennemis):
                 self.player.position[0],self.player.position[1] = self.player.position_initiale
                 self.mort += 1
+                pygame.mixer.Channel(1).set_volume(0.05)
+                pygame.mixer.Channel(1).play(pygame.mixer.Sound('son/mort.mp3'))
             if ennemis.rect.collidelist(self.list_shuriken) >= 0:
                 ennemis.position[1] += 500
-                for shuriken in self.list_shuriken:
-                    shuriken.position[1] += 500
+                pygame.mixer.Channel(3).set_volume(0.05)
+                pygame.mixer.Channel(3).play(pygame.mixer.Sound('son/mortmonstre.mp3'))
                 self.score += 250 
 
         # Si le joueur tombe dans le vide il gagne une mort et reviens au point d'apparition
@@ -194,6 +206,8 @@ class Game:
             if surface.colliderect(self.player.rect):
                 self.player.position[0],self.player.position[1] = self.player.position_initiale
                 self.mort += 1
+                pygame.mixer.Channel(2).set_volume(0.05)
+                pygame.mixer.Channel(2).play(pygame.mixer.Sound('son/mort.mp3'))
         
         # Empeche le joueur d'abuser du shuriken 
         for shurikens in self.list_shuriken:

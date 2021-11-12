@@ -11,6 +11,12 @@ import pyscroll
 surfaceW = 800 #Dimension de la fenêtre / Largeur
 surfaceH = 600 #Dimension de la fenêtre / Longueur
 
+#Musique du menu
+pygame.mixer.init() #initialiste la méthode de son de pygame
+pygame.mixer.music.load('son/musique0.mp3') #charge la musique
+pygame.mixer.music.play(-1) # Répète la musique indéfiniment
+pygame.mixer.music.set_volume(0.025) # Règle le volume
+
 class Menu :
     """ Création et gestion des boutons d'un menu """
     def __init__(self, action, *groupes) :
