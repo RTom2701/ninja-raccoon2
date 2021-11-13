@@ -1,5 +1,6 @@
 # Implémentation des librairies souhaités
 from pygame.constants import GL_ACCELERATED_VISUAL
+from checkpoint import checkpoint
 from player import joueur
 from ennemis import ennemis
 from coin import coin
@@ -23,7 +24,7 @@ class Game:
             pygame.mixer.music.load('son/musique2.mp3')
         pygame.mixer.music.play(-1) # Répète la musique indéfiniment
         pygame.mixer.music.set_volume(0.05) # Règle le volume
-        self.dimension = (1280, 720)
+        self.dimension = (1000, 1000)
         self.screen = pygame.display.set_mode(self.dimension) 
         pygame.display.set_caption("Ninja Raccoon 2") # Nom de la fenetre
 
@@ -51,6 +52,8 @@ class Game:
         global coin
         self.list_ennemis = []
         global ennemis
+        self.checkpoint = []
+        global checkpoint
         
 
         for obj in tmx_data.objects: # récupération de tous les objets dans la carte
@@ -76,6 +79,10 @@ class Game:
 
             if obj.name == 'fin': # Si on trouve un objet sur la carte qui se nome fin on l'ajoute à la liste fin
                 self.fin.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+            
+            if obj.name == 'checkpoint':
+                self.checkpoint.append(checkpoint(obj.x, obj.y, 'img/Checkpoint.png', 'checkpoint'))
+                print(self.checkpoint[0])
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)
@@ -84,6 +91,8 @@ class Game:
             self.group.add(coin) # Ajoute toutes les pieces au groupe
         for ennemis in self.list_ennemis:
             self.group.add(ennemis) # Ajoute tous les ennemis dans le groupe
+        for checkpoint in self.checkpoint:
+            self.group.add(checkpoint) # Ajoute tous les checkpoints dans le groupe
 
 
         # Score du joueur
@@ -197,6 +206,7 @@ class Game:
                 pygame.mixer.Channel(1).play(pygame.mixer.Sound('son/mort.mp3'))
             if ennemis.rect.collidelist(self.list_shuriken) >= 0:
                 ennemis.position[1] += 500
+                self.list_shuriken[0].position[1] += 500
                 pygame.mixer.Channel(3).set_volume(0.05)
                 pygame.mixer.Channel(3).play(pygame.mixer.Sound('son/mortmonstre.mp3'))
                 self.score += 250 
@@ -218,7 +228,13 @@ class Game:
         for fin in self.fin:
             if self.player.rect.colliderect(fin):
                 self.jeu = False
-                print('fin')
+
+        # Si une collison est effectué entre le joueur et le checkpoint, le point d'apparition du joueur change 
+        for checkpoint in self.checkpoint:
+            if self.player.rect.colliderect(checkpoint):
+                self.player.position_initiale = checkpoint.position[0], checkpoint.position[1]
+                checkpoint.etape[0] = 2
+
 
     # Méthode qui permet la gravité des entitées
     def graviter(self):

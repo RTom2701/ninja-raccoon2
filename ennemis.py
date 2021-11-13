@@ -109,7 +109,6 @@ class ennemis(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une 
             8.25 : self.recuperer_sprite(287, 0), # phase 8
             8.5 : self.recuperer_sprite(287, 0), # phase 8
             8.75 : self.recuperer_sprite(287, 0), # phase 8
-
         }
         self.etape = [1, 1]
         self.ancienne_position = self.position.copy()
@@ -143,7 +142,6 @@ class ennemis(pygame.sprite.Sprite,): # pygame.sprite.Sprite -> héritage d'une 
             self.position[0] += self.vitesse_y
             if self.position_initial[0]+50 < self.position[0] or self.position_initial[0]-50 > self.position[0]:
                 self.vitesse_y *= -1
-        
     # sauvegarde de la position
     def sauvegarder_pos(self):
         self.ancienne_position = self.position.copy()
