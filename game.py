@@ -82,7 +82,6 @@ class Game:
             
             if obj.name == 'checkpoint':
                 self.checkpoint.append(checkpoint(obj.x, obj.y, 'img/Checkpoint.png', 'checkpoint'))
-                print(self.checkpoint[0])
 
         # dessiner le groupe de calques
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer = 1) # default_layer = emplacement du joueur au niveau des plans (arriere plan = 0)

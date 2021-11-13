@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="208">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="210">
  <tileset firstgid="1" source="nature.tsx"/>
  <tileset firstgid="721" source="Obj-Statue.tsx"/>
  <layer id="1" name="background" width="300" height="50">
@@ -348,7 +348,7 @@
   <object id="164" name="piece" type="piece" x="2810.73" y="575.787">
    <point/>
   </object>
-  <object id="165" name="piece" type="piece" x="2826.36" y="576.303">
+  <object id="165" name="piece" type="piece" x="2832" y="576">
    <point/>
   </object>
   <object id="166" name="piece" type="piece" x="2843.6" y="575.515">
@@ -451,7 +451,7 @@
   <object id="206" name="flight" type="flight" x="237.5" y="444">
    <point/>
   </object>
-  <object id="207" name="checkpoint" type="checkpoint" x="155.666" y="521.666">
+  <object id="209" name="checkpoint" type="checkpoint" x="2816" y="576">
    <point/>
   </object>
  </objectgroup>

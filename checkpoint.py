@@ -30,8 +30,6 @@ class checkpoint(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'un
         self.changer_animation(self.etape[0])
         print(self.etape)
 
-
-
     # sauvegarde de la position
     def sauvegarder_pos(self):
         self.ancienne_position = self.position.copy()
