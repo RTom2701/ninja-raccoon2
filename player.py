@@ -16,10 +16,10 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
         self.images = {
             'droite': self.recuperer_sprite(0, 0), # face droite 
             'gauche': self.recuperer_sprite(32, 0), # face gauche
-            'sautdroite': self.recuperer_sprite(192, 0), # face droite 
-            'sautgauche': self.recuperer_sprite(224, 0), # face gauche
-            'chutedroite': self.recuperer_sprite(256, 0), # face droite 
-            'chutegauche': self.recuperer_sprite(288, 0) # face gauche
+            'sautdroite': self.recuperer_sprite(192, 0), # saut vers la droite
+            'sautgauche': self.recuperer_sprite(224, 0), # saut vers la gauche
+            'chutedroite': self.recuperer_sprite(256, 0), # chute vers la droite 
+            'chutegauche': self.recuperer_sprite(288, 0) # chute vers la gauche
         }
 
         self.position_initiale = (x, y) # Récupére le point d'apparition du joueur
@@ -87,8 +87,8 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
             self.chute_disponible = True
             self.puissance_saut = 0
             if self.saut_disponible == False:
-                if self.direction == 'droite':
-                    self.changer_animation('chutedroite')
+                if self.direction == 'droite': #animation de chute vers la direction correspondante à celle actuelle du perso
+                    self.changer_animation('chutedroite') 
                 else:
                     self.changer_animation('chutegauche')
             if self.graviter == False:
@@ -98,7 +98,7 @@ class joueur(pygame.sprite.Sprite): # pygame.sprite.Sprite -> héritage d'une "s
                     self.changer_animation('gauche')
         
         if pressed[pygame.K_UP] and  self.puissance_saut > 0:
-            if self.direction == 'droite':
+            if self.direction == 'droite': #animation de saut vers la direction correspondante à celle actuelle du perso
                 self.changer_animation('sautdroite')
             else:
                 self.changer_animation('sautgauche')
