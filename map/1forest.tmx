@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="207">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="235">
  <tileset firstgid="1" source="nature.tsx"/>
  <tileset firstgid="721" source="Obj-Statue.tsx"/>
  <layer id="1" name="background" width="300" height="50">
@@ -219,7 +219,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Bordure">
-  <object id="68" type="bordure" x="-10.25" y="1.25" width="4800" height="800"/>
+  <object id="68" type="bordure" x="-7.25" y="3.75" width="4800" height="800"/>
   <object id="77" type="plateforme" x="1408" y="272" width="96" height="288"/>
   <object id="78" type="plateforme" x="1504" y="208" width="128" height="320"/>
   <object id="79" type="plateforme" x="1632" y="208" width="112" height="352"/>
@@ -235,12 +235,48 @@
   <object id="94" type="plateforme" x="1873.17" y="705.083" width="30.6667" height="30.3333"/>
   <object id="95" type="plateforme" x="1953.17" y="656.583" width="30.6667" height="30.3333"/>
   <object id="96" type="plateforme" x="1808.92" y="641.083" width="30.6667" height="30.3333"/>
-  <object id="202" name="skeleton" type="skeleton" x="516" y="582.5">
+  <object id="202" name="skeleton" type="skeleton" x="517.5" y="578">
+   <point/>
+  </object>
+  <object id="211" name="flight" type="flight" x="2026" y="595.5">
+   <point/>
+  </object>
+  <object id="212" name="flight" type="flight" x="2228" y="694.5">
+   <point/>
+  </object>
+  <object id="213" name="flight" type="flight" x="2475" y="578.5">
+   <point/>
+  </object>
+  <object id="214" name="flight" type="flight" x="2818.5" y="518.5">
+   <point/>
+  </object>
+  <object id="215" name="flight" type="flight" x="3257.5" y="592">
+   <point/>
+  </object>
+  <object id="216" name="flight" type="flight" x="3522" y="656.5">
+   <point/>
+  </object>
+  <object id="217" name="flight" type="flight" x="3821.5" y="582.5">
+   <point/>
+  </object>
+  <object id="218" name="flight" type="flight" x="4152.5" y="576.333">
+   <point/>
+  </object>
+  <object id="219" name="flight" type="flight" x="4261.5" y="541.833">
+   <point/>
+  </object>
+  <object id="231" name="skeleton" type="skeleton" x="1164.5" y="479.5">
+   <point/>
+  </object>
+  <object id="232" name="skeleton" type="skeleton" x="1962" y="624">
    <point/>
   </object>
  </objectgroup>
+ <objectgroup id="5" name="Mort">
+  <object id="48" type="suicide" x="0" y="784" width="4801" height="16"/>
+ </objectgroup>
  <objectgroup id="3" name="Objets">
-  <object id="1" name="Player" x="86.4546" y="554.939">
+  <object id="1" name="Player" x="27.5" y="576">
    <point/>
   </object>
   <object id="15" name="piece" type="piece" x="251.166" y="592.417">
@@ -429,7 +465,7 @@
   <object id="195" name="piece" type="piece" x="2283" y="640">
    <point/>
   </object>
-  <object id="196" name="piece" type="piece" x="2971" y="670">
+  <object id="196" name="piece" type="piece" x="2970" y="670">
    <point/>
   </object>
   <object id="197" name="piece" type="piece" x="3169" y="620">
@@ -441,18 +477,57 @@
   <object id="199" name="piece" type="piece" x="3585" y="636">
    <point/>
   </object>
-  <object id="200" name="skeleton" type="skeleton" x="304" y="576">
-   <point/>
-  </object>
-  <object id="201" name="skeleton" type="skeleton" x="336" y="576">
+  <object id="201" name="skeleton" type="skeleton" x="336" y="577.75">
    <point/>
   </object>
   <object id="204" name="fin" type="fin" x="4736" y="688" width="32" height="48"/>
-  <object id="206" name="flight" type="flight" x="237.5" y="444">
+  <object id="206" name="flight" type="flight" x="400.833" y="532">
    <point/>
   </object>
- </objectgroup>
- <objectgroup id="5" name="Mort">
-  <object id="48" type="suicide" x="0" y="784" width="4801" height="16"/>
+  <object id="209" name="flight" type="flight" x="1553" y="538.25">
+   <point/>
+  </object>
+  <object id="210" name="flight" type="flight" x="1880" y="590">
+   <point/>
+  </object>
+  <object id="220" name="flight" type="flight" x="1050" y="487">
+   <point/>
+  </object>
+  <object id="221" name="flight" type="flight" x="800.667" y="424.667">
+   <point/>
+  </object>
+  <object id="222" name="flight" type="flight" x="401" y="468.5">
+   <point/>
+  </object>
+  <object id="223" name="skeleton" type="skeleton" x="1733" y="577.5">
+   <point/>
+  </object>
+  <object id="224" name="skeleton" type="skeleton" x="2197.5" y="562.75">
+   <point/>
+  </object>
+  <object id="225" name="skeleton" type="skeleton" x="2390.5" y="594.75">
+   <point/>
+  </object>
+  <object id="226" name="skeleton" type="skeleton" x="3712.5" y="592.5">
+   <point/>
+  </object>
+  <object id="227" name="skeleton" type="skeleton" x="4105.5" y="480">
+   <point/>
+  </object>
+  <object id="228" name="skeleton" type="skeleton" x="2827.25" y="562">
+   <point/>
+  </object>
+  <object id="229" name="skeleton" type="skeleton" x="3082" y="658">
+   <point/>
+  </object>
+  <object id="230" name="skeleton" type="skeleton" x="4170" y="660">
+   <point/>
+  </object>
+  <object id="233" name="piece" type="piece" x="2970" y="655">
+   <point/>
+  </object>
+  <object id="234" name="piece" type="piece" x="2970.5" y="662.5">
+   <point/>
+  </object>
  </objectgroup>
 </map>
