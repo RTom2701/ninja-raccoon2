@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="267">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="311">
  <tileset firstgid="1" source="nature.tsx"/>
  <tileset firstgid="721" source="Tileset.tsx"/>
  <tileset firstgid="977" source="Obj-Statue.tsx"/>
@@ -220,10 +220,10 @@
 </data>
  </layer>
  <objectgroup id="4" name="Bordure">
-  <object id="68" type="bordure" x="1.45455" y="-12.9091" width="4800" height="800"/>
+  <object id="68" type="bordure" x="-19.8788" y="-6.24243" width="4800" height="800"/>
  </objectgroup>
  <objectgroup id="3" name="Objets">
-  <object id="1" name="Player" x="87.5" y="378.5">
+  <object id="1" name="Player" x="88.25" y="384">
    <point/>
   </object>
   <object id="137" type="plateforme" x="507.038" y="499.136" width="27.9242" height="3.86364"/>
@@ -236,7 +236,7 @@
   </object>
   <object id="151" type="plateforme" x="315.697" y="499.53" width="42.7878" height="2.63636"/>
   <object id="152" type="plateforme" x="96.3561" y="415.932" width="14.9128" height="2.63636"/>
-  <object id="153" type="plateforme" x="1.93943" y="482.015" width="236.788" height="317.303"/>
+  <object id="153" type="plateforme" x="1.93943" y="480.015" width="236.788" height="319.303"/>
   <object id="155" type="plateforme" x="1321.25" y="611.068" width="13.6742" height="3.86364"/>
   <object id="156" type="plateforme" x="1481.41" y="706.943" width="13.6742" height="3.86364"/>
   <object id="157" type="plateforme" x="1609.29" y="642.943" width="13.6742" height="3.86364"/>
@@ -315,9 +315,6 @@
    <point/>
   </object>
   <object id="213" name="piece" type="piece" x="2191.45" y="655.455">
-   <point/>
-  </object>
-  <object id="214" name="piece" type="piece" x="2287.5" y="736.25">
    <point/>
   </object>
   <object id="215" name="piece" type="piece" x="2368.67" y="720.333">
@@ -417,6 +414,129 @@
    <point/>
   </object>
   <object id="266" name="fin" type="fin" x="4704" y="720" width="32" height="48"/>
+  <object id="267" name="skeleton" type="skeleton" x="216.5" y="449.5">
+   <point/>
+  </object>
+  <object id="268" name="flight" type="flight" x="410" y="414">
+   <point/>
+  </object>
+  <object id="269" name="flight" type="flight" x="600.667" y="479.667">
+   <point/>
+  </object>
+  <object id="270" name="skeleton" type="skeleton" x="851.848" y="517.242">
+   <point/>
+  </object>
+  <object id="271" name="flight" type="flight" x="995.333" y="519.333">
+   <point/>
+  </object>
+  <object id="272" name="flight" type="flight" x="1472" y="625.333">
+   <point/>
+  </object>
+  <object id="273" name="skeleton" type="skeleton" x="1607.33" y="609.667">
+   <point/>
+  </object>
+  <object id="274" name="skeleton" type="skeleton" x="2041.5" y="336.25">
+   <point/>
+  </object>
+  <object id="275" name="flight" type="flight" x="1977" y="588">
+   <point/>
+  </object>
+  <object id="276" name="flight" type="flight" x="1975.33" y="480.667">
+   <point/>
+  </object>
+  <object id="277" name="flight" type="flight" x="1968" y="383">
+   <point/>
+  </object>
+  <object id="278" name="flight" type="flight" x="2260" y="717.333">
+   <point/>
+  </object>
+  <object id="279" name="flight" type="flight" x="2434.67" y="687">
+   <point/>
+  </object>
+  <object id="280" name="flight" type="flight" x="2719" y="705.333">
+   <point/>
+  </object>
+  <object id="281" name="flight" type="flight" x="2948.67" y="738">
+   <point/>
+  </object>
+  <object id="282" name="flight" type="flight" x="3219.33" y="634.667">
+   <point/>
+  </object>
+  <object id="283" name="flight" type="flight" x="3359.67" y="684.667">
+   <point/>
+  </object>
+  <object id="284" name="flight" type="flight" x="3424" y="560">
+   <point/>
+  </object>
+  <object id="285" name="skeleton" type="skeleton" x="3424.33" y="688.333">
+   <point/>
+  </object>
+  <object id="286" name="skeleton" type="skeleton" x="3460.33" y="560.333">
+   <point/>
+  </object>
+  <object id="287" name="piece" type="piece" x="3823.67" y="745.333">
+   <point/>
+  </object>
+  <object id="288" name="piece" type="piece" x="3823.58" y="738.625">
+   <point/>
+  </object>
+  <object id="289" name="piece" type="piece" x="3823.25" y="731.583">
+   <point/>
+  </object>
+  <object id="292" name="piece" type="piece" x="3823.38" y="724.542">
+   <point/>
+  </object>
+  <object id="293" name="piece" type="piece" x="3823.05" y="717.5">
+   <point/>
+  </object>
+  <object id="294" name="piece" type="piece" x="3822.95" y="710.792">
+   <point/>
+  </object>
+  <object id="295" name="piece" type="piece" x="3822.63" y="703.75">
+   <point/>
+  </object>
+  <object id="296" name="piece" type="piece" x="3811.64" y="676.909">
+   <point/>
+  </object>
+  <object id="297" name="piece" type="piece" x="3792" y="651.273">
+   <point/>
+  </object>
+  <object id="298" name="piece" type="piece" x="3768.5" y="624">
+   <point/>
+  </object>
+  <object id="299" name="piece" type="piece" x="3743" y="594">
+   <point/>
+  </object>
+  <object id="301" name="piece" type="piece" x="3718" y="568">
+   <point/>
+  </object>
+  <object id="302" name="piece" type="piece" x="3690" y="549.5">
+   <point/>
+  </object>
+  <object id="303" name="flight" type="flight" x="3999.33" y="685.667">
+   <point/>
+  </object>
+  <object id="304" name="flight" type="flight" x="4066" y="572">
+   <point/>
+  </object>
+  <object id="305" name="flight" type="flight" x="4141" y="346.667">
+   <point/>
+  </object>
+  <object id="306" name="piece" type="piece" x="4185.77" y="311.864">
+   <point/>
+  </object>
+  <object id="307" name="piece" type="piece" x="4212.73" y="287.636">
+   <point/>
+  </object>
+  <object id="308" name="piece" type="piece" x="4239.91" y="265.591">
+   <point/>
+  </object>
+  <object id="309" name="super_piece" type="super_piece" x="2049.36" y="341.182">
+   <point/>
+  </object>
+  <object id="310" name="super_piece" type="super_piece" x="2287.73" y="736.455">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="Mort"/>
 </map>
